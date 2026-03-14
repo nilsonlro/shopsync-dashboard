@@ -444,8 +444,8 @@
   // ══════════════════════════════════════════════════
   // CONFIGURAÇÃO — substitua pelos seus valores reais
   // ══════════════════════════════════════════════════
-  const SUPABASE_URL      = "COLE_AQUI_O_SEU_SUPABASE_URL";
-  const SUPABASE_ANON_KEY = "COLE_AQUI_O_SEU_SUPABASE_ANON_KEY";
+  const SUPABASE_URL      = "https://ndftougvhysmcunoiomz.supabase.co";
+  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5kZnRvdWd2aHlzbWN1bm9pb216Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM0OTg4NDUsImV4cCI6MjA4OTA3NDg0NX0.QOzFHPrwlhYIJYDAd8gKgR9q2tsYFDbUvL8KMq7hUzA";
   // ══════════════════════════════════════════════════
 
   // Inicializar cliente Supabase
@@ -802,7 +802,7 @@ carregarDados();
 
     let stockItems = [];
 
-    if (SUPABASE_URL !== 'COLE_AQUI_O_SEU_SUPABASE_URL') {
+    if (SUPABASE_URL !== 'https://ndftougvhysmcunoiomz.supabase.co') {
       try {
         const { data } = await db.from('stock').select('*').order('quantidade', { ascending: true });
         stockItems = data || [];
