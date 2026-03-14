@@ -1,5 +1,11 @@
 <!DOCTYPE html>
 <html lang="pt">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script>
+  const SUPA_URL  = "https://ndftougvhysmcunoiomz.supabase.co";
+  const SUPA_KEY  = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5kZnRvdWd2aHlzbWN1bm9pb216Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM0OTg4NDUsImV4cCI6MjA4OTA3NDg0NX0.QOzFHPrwlhYIJYDAd8gKgR9q2tsYFDbUvL8KMq7hUzA";
+  const db = supabase.createClient(SUPA_URL, SUPA_KEY);
+</script>
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -496,8 +502,46 @@
     new Date().toLocaleDateString('pt-PT', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
 
   // ── Carregar dados ─────────────────────────────────
-  async function carregarDados(dias = 30) {
-    currentPeriod = dias;
+  async function carregarDados() {
+  try {
+    // Buscar vendas dos ultimos 30 dias
+    const desde = new Date();
+    desde.setDate(desde.getDate() - 30);
+
+    const { data: vendas, error } = await db
+      .from("vendas")
+      .select("*")
+      .gte("data_venda", desde.toISOString())
+      .order("data_venda", { ascending: false });
+
+    if (error) throw error;
+
+    if (vendas && vendas.length > 0) {
+      // Calcular receita total
+      const total = vendas.reduce((s, v) => s + parseFloat(v.valor || 0), 0);
+      document.getElementById("m-rev").textContent =
+        "£" + total.toLocaleString("pt-PT", { minimumFractionDigits: 2 });
+      document.getElementById("m-ord").textContent = vendas.length;
+
+      // Atualizar tabela de encomendas
+      const mapeadas = vendas.map(v => ({
+        id: "#" + (v.order_id || v.id).toString().slice(-4),
+        product: v.produto || "-",
+        platform: v.plataforma || "-",
+        buyer: v.comprador || "-",
+        value: "£" + parseFloat(v.valor || 0).toFixed(2),
+        status: v.estado || "pending",
+        date: new Date(v.data_venda).toLocaleDateString("pt-PT")
+      }));
+      renderOrders(mapeadas);
+    }
+  } catch(e) {
+    console.warn("Sem ligacao a BD, a usar dados de exemplo:", e.message);
+  }
+}
+
+// Carregar dados ao abrir a pagina
+carregarDados();
 
     // Mostrar spinners
     ['m-rev','m-ord','m-avg','m-pend','m-del'].forEach(id => {
@@ -508,7 +552,7 @@
     let usandoDemo = false;
 
     // Tentar Supabase
-    if (SUPABASE_URL !== 'COLE_AQUI_O_SEU_SUPABASE_URL') {
+    if (SUPABASE_URL !== 'https://ndftougvhysmcunoiomz.supabase.co') {
       try {
         const desde = new Date();
         desde.setDate(desde.getDate() - dias);
