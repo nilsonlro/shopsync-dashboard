@@ -1,6 +1,7 @@
 {
   "name": "shopsync-dashboard",
   "version": "1.0.0",
+  "description": "Dashboard de vendas eBay e Vinted",
   "dependencies": {
     "@supabase/supabase-js": "^2.0.0"
   }
