@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ShopSync — Stock</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    :root { --bg:#f5f5f3; --surface:#ffffff; --surface-2:#f0efea; --border:rgba(0,0,0,0.08); --border-md:rgba(0,0,0,0.14); --text:#1a1a18; --text-2:#6b6b68; --text-3:#9a9a97; --green:#1D9E75; --green-dark:#0F6E56; --green-bg:#E1F5EE; --green-text:#0F6E56; --blue:#185FA5; --blue-bg:#E6F1FB; --blue-text:#185FA5; --amber:#BA7517; --amber-bg:#FAEEDA; --amber-text:#854F0B; --coral:#D85A30; --coral-bg:#FAECE7; --coral-text:#993C1D; --red-bg:#FCEBEB; --red-text:#A32D2D; --radius-md:8px; --radius-lg:12px; }
+    @media (prefers-color-scheme: dark) { :root { --bg:#1a1a18; --surface:#242422; --surface-2:#2e2e2b; --border:rgba(255,255,255,0.08); --border-md:rgba(255,255,255,0.14); --text:#f0efea; --text-2:#9a9a97; --text-3:#6b6b68; --green-bg:#0a2e22; --green-text:#5DCAA5; --blue-bg:#0c1f35; --blue-text:#85B7EB; --amber-bg:#2a1e08; --amber-text:#EF9F27; --coral-bg:#2a1208; --coral-text:#F0997B; --red-bg:#2a0a0a; --red-text:#F09595; } }
+    html, body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif; font-size:14px; line-height:1.5; min-height:100vh; }
+    .shell { display:flex; min-height:100vh; }
+    .sidebar { width:220px; flex-shrink:0; background:var(--surface); border-right:0.5px solid var(--border); display:flex; flex-direction:column; padding:1.5rem 1rem; position:sticky; top:0; height:100vh; overflow-y:auto; }
+    .sidebar-logo { font-size:18px; font-weight:600; color:var(--text); margin-bottom:2rem; letter-spacing:-0.02em; padding:0 8px; display:flex; align-items:center; gap:8px; }
+    .sidebar-logo span { color:var(--green); }
+    .nav-section { font-size:10px; text-transform:uppercase; letter-spacing:0.08em; color:var(--text-3); padding:0 8px; margin-bottom:6px; margin-top:1.2rem; }
+    .nav-item { display:flex; align-items:center; gap:10px; padding:9px 10px; border-radius:var(--radius-md); font-size:13px; color:var(--text-2); cursor:pointer; text-decoration:none; transition:background 0.15s,color 0.15s; margin-bottom:2px; }
+    .nav-item:hover { background:var(--surface-2); color:var(--text); }
+    .nav-item.active { background:var(--green-bg); color:var(--green-text); font-weight:500; }
+    .nav-badge { margin-left:auto; font-size:10px; background:var(--amber-bg); color:var(--amber-text); padding:2px 7px; border-radius:20px; font-weight:500; }
+    .nav-divider { height:0.5px; background:var(--border); margin:10px 8px; }
+    .nav-svg { width:16px; height:16px; stroke:currentColor; fill:none; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; flex-shrink:0; }
+    .sidebar-footer { margin-top:auto; padding:12px 8px 0; border-top:0.5px solid var(--border); }
+    .user-row { display:flex; align-items:center; gap:9px; }
+    .avatar { width:30px; height:30px; border-radius:50%; background:var(--green-bg); color:var(--green-text); font-size:12px; font-weight:500; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+    .user-name { font-size:13px; font-weight:500; }
+    .user-plan { font-size:11px; color:var(--text-3); }
+    .main { flex:1; min-width:0; padding:2rem; overflow-x:hidden; }
+    .topbar { display:flex; align-items:center; justify-content:space-between; margin-bottom:1.5rem; flex-wrap:wrap; gap:12px; }
+    .topbar-left h1 { font-size:20px; font-weight:600; letter-spacing:-0.02em; }
+    .topbar-left p { font-size:13px; color:var(--text-2); margin-top:2px; }
+    .topbar-right { display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+    select.ctrl, button.ctrl, a.ctrl { font-size:13px; padding:7px 12px; border-radius:var(--radius-md); border:0.5px solid var(--border-md); background:var(--surface); color:var(--text); cursor:pointer; transition:background 0.15s; text-decoration:none; display:inline-flex; align-items:center; }
+    select.ctrl:hover, button.ctrl:hover, a.ctrl:hover { background:var(--surface-2); }
+    button.ctrl-primary, a.ctrl-primary { background:var(--green); color:#fff; border-color:var(--green); }
+    button.ctrl-primary:hover, a.ctrl-primary:hover { background:var(--green-dark); }
+    .card { background:var(--surface); border:0.5px solid var(--border); border-radius:var(--radius-lg); padding:1.2rem 1.4rem; margin-bottom:1.5rem; }
+    .card-title { font-size:11px; font-weight:500; text-transform:uppercase; letter-spacing:0.06em; color:var(--text-2); margin-bottom:1rem; }
+    .metrics-row { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-bottom:1.5rem; }
+    @media (max-width:700px) { .metrics-row { grid-template-columns:repeat(2,1fr); } }
+    .metric { background:var(--surface-2); border-radius:var(--radius-md); padding:14px 16px; }
+    .metric-label { font-size:11px; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-3); margin-bottom:8px; }
+    .metric-value { font-size:24px; font-weight:600; letter-spacing:-0.02em; color:var(--text); line-height:1; }
+    .metric-delta { font-size:12px; margin-top:6px; }
+    .delta-dn { color:var(--coral-text); }
+    .delta-up { color:var(--green-text); }
+    .search-bar { display:flex; gap:8px; margin-bottom:1rem; flex-wrap:wrap; }
+    .search-input { flex:1; min-width:200px; padding:8px 12px; border-radius:var(--radius-md); border:0.5px solid var(--border-md); background:var(--surface); color:var(--text); font-size:13px; }
+    .search-input:focus { outline:none; border-color:var(--green); }
+    .table-scroll { overflow-x:auto; }
+    .otable { width:100%; border-collapse:collapse; font-size:13px; }
+    .otable th { font-size:11px; font-weight:500; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-3); text-align:left; padding:6px 10px; border-bottom:0.5px solid var(--border); }
+    .otable td { padding:10px 10px; border-bottom:0.5px solid var(--border); }
+    .otable tr:last-child td { border-bottom:none; }
+    .otable tr:hover td { background:var(--surface-2); }
+    .bar-cell { display:flex; align-items:center; gap:8px; }
+    .bar-bg { flex:1; height:5px; background:var(--surface-2); border-radius:3px; overflow:hidden; }
+    .bar-fill { height:100%; border-radius:3px; }
+    .qty-badge { font-size:12px; font-weight:600; min-width:30px; text-align:right; }
+    .warn-badge { font-size:11px; padding:2px 7px; border-radius:20px; background:var(--red-bg); color:var(--red-text); font-weight:500; }
+    .ok-badge { font-size:11px; padding:2px 7px; border-radius:20px; background:var(--green-bg); color:var(--green-text); font-weight:500; }
+    .low-badge { font-size:11px; padding:2px 7px; border-radius:20px; background:var(--amber-bg); color:var(--amber-text); font-weight:500; }
+    .spinner { display:inline-block; width:14px; height:14px; border:2px solid var(--border-md); border-top-color:var(--green); border-radius:50%; animation:spin 0.7s linear infinite; vertical-align:middle; margin-right:6px; }
+    @keyframes spin { to{transform:rotate(360deg)} }
+    .status-dot { width:7px; height:7px; border-radius:50%; display:inline-block; margin-right:5px; }
+    .dot-ok { background:var(--green); } .dot-err { background:var(--coral); }
+    .empty-state { text-align:center; padding:3rem 1rem; color:var(--text-3); }
+    .empty-state p { font-size:13px; margin-top:8px; }
+    .info-box { background:var(--blue-bg); border:0.5px solid var(--blue-text); border-radius:var(--radius-md); padding:12px 16px; font-size:13px; color:var(--blue-text); display:flex; gap:10px; margin-bottom:1.5rem; }
+    @media (max-width:680px) { .sidebar{display:none;} .main{padding:1rem;} }
+  </style>
+</head>
+<body>
+<div class="shell">
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="2" y="2" width="8" height="8" rx="2" fill="#1D9E75"/><rect x="12" y="2" width="8" height="8" rx="2" fill="#1D9E75" opacity=".5"/><rect x="2" y="12" width="8" height="8" rx="2" fill="#1D9E75" opacity=".5"/><rect x="12" y="12" width="8" height="8" rx="2" fill="#1D9E75"/></svg>
+      Shop<span>Sync</span>
+    </div>
+    <div class="nav-section">Gestão</div>
+    <a class="nav-item" href="index.html"><svg class="nav-svg" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Dashboard</a>
+    <a class="nav-item" href="encomendas.html"><svg class="nav-svg" viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 12h6M9 16h4"/></svg>Encomendas <span class="nav-badge" id="pendingBadge">—</span></a>
+    <a class="nav-item active" href="stock.html"><svg class="nav-svg" viewBox="0 0 24 24"><path d="M20 7H4a1 1 0 00-1 1v10a1 1 0 001 1h16a1 1 0 001-1V8a1 1 0 00-1-1z"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg>Stock</a>
+    <a class="nav-item" href="produtos.html"><svg class="nav-svg" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>Produtos</a>
+    <div class="nav-divider"></div>
+    <div class="nav-section">Plataformas</div>
+    <a class="nav-item" href="https://www.ebay.co.uk/sh/ovw" target="_blank"><svg class="nav-svg" viewBox="0 0 24 24" style="color:var(--blue);"><circle cx="12" cy="12" r="10"/><path d="M8 12h8M12 8v8"/></svg><span style="flex:1;">eBay</span><svg width="10" height="10" viewBox="0 0 10 10" fill="none" style="color:var(--text-3);flex-shrink:0;"><path d="M2 2h6v6M2 8l6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+    <a class="nav-item" href="https://www.vinted.co.uk/member/inbox" target="_blank"><svg class="nav-svg" viewBox="0 0 24 24" style="color:var(--green);"><circle cx="12" cy="12" r="10"/><path d="M8 12h8M12 8v8"/></svg><span style="flex:1;">Vinted</span><svg width="10" height="10" viewBox="0 0 10 10" fill="none" style="color:var(--text-3);flex-shrink:0;"><path d="M2 2h6v6M2 8l6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+    <div class="sidebar-footer">
+      <div style="font-size:11px;color:var(--text-3);margin-bottom:8px;display:flex;align-items:center;gap:5px;"><span class="status-dot dot-ok" id="dbStatusDot"></span><span id="dbStatusText">A ligar...</span></div>
+      <div class="user-row"><div class="avatar">JS</div><div><div class="user-name">João Silva</div><div class="user-plan">Plano Gratuito</div></div></div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <div class="topbar-left">
+        <h1>Stock</h1>
+        <p id="subtitleText">A carregar...</p>
+      </div>
+      <div class="topbar-right">
+        <button class="ctrl" onclick="carregarStock()">↻ Atualizar</button>
+        <a class="ctrl ctrl-primary" href="https://supabase.com/dashboard/project/ndftougvhysmcunoiomz/editor" target="_blank">+ Adicionar item</a>
+      </div>
+    </div>
+
+    <div class="info-box">
+      <span>ℹ️</span>
+      <span>Gerencie o seu stock directamente na <a href="https://supabase.com/dashboard/project/ndftougvhysmcunoiomz/editor" target="_blank" style="color:var(--blue-text);font-weight:500;">base de dados Supabase</a> — tabela <strong>stock</strong>. As alterações aparecem aqui instantaneamente.</span>
+    </div>
+
+    <div class="metrics-row">
+      <div class="metric"><div class="metric-label">Total de itens</div><div class="metric-value" id="m-itens"><span class="spinner"></span></div><div class="metric-delta delta-up">categorias</div></div>
+      <div class="metric"><div class="metric-label">Total em stock</div><div class="metric-value" id="m-total"><span class="spinner"></span></div><div class="metric-delta delta-up">unidades</div></div>
+      <div class="metric"><div class="metric-label">Stock baixo</div><div class="metric-value" id="m-baixo"><span class="spinner"></span></div><div class="metric-delta delta-dn">≤ 5 unidades</div></div>
+      <div class="metric"><div class="metric-label">Valor total</div><div class="metric-value" id="m-valor"><span class="spinner"></span></div><div class="metric-delta delta-up">em stock</div></div>
+    </div>
+
+    <div class="card">
+      <div class="search-bar">
+        <input class="search-input" type="text" id="searchInput" placeholder="Pesquisar por produto ou categoria..." oninput="filtrar()"/>
+        <select class="ctrl" id="alertFilter" onchange="filtrar()">
+          <option value="">Todos os estados</option>
+          <option value="warn">Stock crítico (≤5)</option>
+          <option value="low">Stock baixo (≤10)</option>
+          <option value="ok">Stock normal</option>
+        </select>
+      </div>
+      <div class="table-scroll">
+        <table class="otable">
+          <thead><tr>
+            <th>Produto</th><th>Categoria</th><th>Plataforma</th>
+            <th>Quantidade</th><th>Preço unit.</th><th>Valor total</th><th>Estado</th>
+          </tr></thead>
+          <tbody id="tbody"><tr><td colspan="7" style="text-align:center;padding:2.5rem;color:var(--text-3);"><span class="spinner"></span> A carregar stock...</td></tr></tbody>
+        </table>
+      </div>
+      <div style="margin-top:1rem;font-size:12px;color:var(--text-3);text-align:right;" id="countLabel"></div>
+    </div>
+  </main>
+</div>
+
+<script>
+  const SUPABASE_URL      = "https://ndftougvhysmcunoiomz.supabase.co";
+  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5kZnRvdWd2aHlzbWN1bm9pb216Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM0OTg4NDUsImV4cCI6MjA4OTA3NDg0NX0.QOzFHPrwlhYIJYDAd8gKgR9q2tsYFDbUvL8KMq7hUzA";
+  const db = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  const DEMO_STOCK = [
+    { id:1, produto:'Casacos vintage',      categoria:'Vestuário',  plataforma:'Vinted', quantidade:17, preco:65  },
+    { id:2, produto:'Relógios',             categoria:'Acessórios', plataforma:'eBay',   quantidade:8,  preco:120 },
+    { id:3, produto:'Câmaras fotográficas', categoria:'Electrónica',plataforma:'eBay',   quantidade:4,  preco:280 },
+    { id:4, produto:'Livros',               categoria:'Livros',     plataforma:'Amazon', quantidade:62, preco:15  },
+    { id:5, produto:'Acessórios prata',     categoria:'Jóias',      plataforma:'Etsy',   quantidade:3,  preco:45  },
+  ];
+
+  let allStock = [];
+
+  async function carregarStock() {
+    try {
+      const { data, error } = await db.from('stock').select('*').order('quantidade', { ascending: true });
+      if (error) throw error;
+      allStock = (data && data.length) ? data : DEMO_STOCK;
+      setDbStatus(true, allStock === DEMO_STOCK ? 'BD sem dados' : 'Supabase ligado');
+    } catch(e) {
+      allStock = DEMO_STOCK;
+      setDbStatus(false, 'Usando dados demo');
+    }
+
+    const totalQty   = allStock.reduce((s,i) => s + (i.quantidade||0), 0);
+    const totalValor = allStock.reduce((s,i) => s + (i.quantidade||0) * parseFloat(i.preco||0), 0);
+    const baixo      = allStock.filter(i => i.quantidade <= 5).length;
+
+    document.getElementById('m-itens').textContent = allStock.length;
+    document.getElementById('m-total').textContent = totalQty;
+    document.getElementById('m-baixo').textContent = baixo;
+    document.getElementById('m-valor').textContent = '£' + totalValor.toLocaleString('pt-PT',{minimumFractionDigits:2,maximumFractionDigits:2});
+    document.getElementById('subtitleText').textContent = allStock.length + ' produto' + (allStock.length!==1?'s':'') + ' em stock';
+
+    // badge pendentes
+    try {
+      const { data } = await db.from('vendas').select('id').eq('estado','pending');
+      document.getElementById('pendingBadge').textContent = (data||[]).length;
+    } catch(e) {}
+
+    filtrar();
+  }
+
+  function filtrar() {
+    const q      = document.getElementById('searchInput').value.toLowerCase();
+    const estado = document.getElementById('alertFilter').value;
+    let filtered = allStock;
+    if (q) filtered = filtered.filter(i => (i.produto||'').toLowerCase().includes(q) || (i.categoria||'').toLowerCase().includes(q));
+    if (estado === 'warn') filtered = filtered.filter(i => i.quantidade <= 5);
+    else if (estado === 'low')  filtered = filtered.filter(i => i.quantidade > 5 && i.quantidade <= 10);
+    else if (estado === 'ok')   filtered = filtered.filter(i => i.quantidade > 10);
+    renderTabela(filtered);
+  }
+
+  function renderTabela(items) {
+    const tbody = document.getElementById('tbody');
+    document.getElementById('countLabel').textContent = items.length + ' item' + (items.length!==1?'s':'');
+    if (!items.length) {
+      tbody.innerHTML = '<tr><td colspan="7"><div class="empty-state">Sem itens<p>Adicione produtos na base de dados Supabase</p></div></td></tr>';
+      return;
+    }
+    const maxQty = Math.max(...items.map(i => i.quantidade), 1);
+    tbody.innerHTML = items.map(i => {
+      const pct   = Math.round((i.quantidade / maxQty) * 100);
+      const cor   = i.quantidade <= 5 ? '#E24B4A' : i.quantidade <= 10 ? '#BA7517' : '#1D9E75';
+      const badge = i.quantidade <= 5
+        ? '<span class="warn-badge">Crítico</span>'
+        : i.quantidade <= 10
+          ? '<span class="low-badge">Baixo</span>'
+          : '<span class="ok-badge">Normal</span>';
+      const valor = ((i.quantidade||0) * parseFloat(i.preco||0)).toFixed(2);
+      return '<tr>' +
+        '<td style="font-weight:500;">'+(i.produto||'—')+'</td>' +
+        '<td style="color:var(--text-2);">'+(i.categoria||'—')+'</td>' +
+        '<td style="color:var(--text-2);">'+(i.plataforma||'—')+'</td>' +
+        '<td><div class="bar-cell"><div class="bar-bg"><div class="bar-fill" style="width:'+pct+'%;background:'+cor+';"></div></div><span class="qty-badge" style="color:'+cor+';">'+i.quantidade+'</span></div></td>' +
+        '<td style="color:var(--text-2);">£'+parseFloat(i.preco||0).toFixed(2)+'</td>' +
+        '<td style="font-weight:600;">£'+valor+'</td>' +
+        '<td>'+badge+'</td>' +
+        '</tr>';
+    }).join('');
+  }
+
+  function setDbStatus(ok, msg) {
+    document.getElementById('dbStatusDot').className = 'status-dot ' + (ok ? 'dot-ok' : 'dot-err');
+    document.getElementById('dbStatusText').textContent = msg;
+  }
+
+  carregarStock();
+</script>
+</body>
+</html>
