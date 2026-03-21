@@ -2,16 +2,16 @@
   "version": 2,
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api/$1" },
-    { "source": "/(.*)",     "destination": "/public/index.html" }
+    { "source": "/(.*)", "destination": "/public/index.html" }
   ],
   "crons": [
     {
-      "path":     "/api/sync-vinted",
-      "schedule": "0 */6 * * *"
+      "path": "/api/sync-vinted",
+      "schedule": "0 8 * * *"
     },
     {
-      "path":     "/api/sync-ebay",
-      "schedule": "30 */6 * * *"
+      "path": "/api/sync-ebay",
+      "schedule": "0 9 * * *"
     }
   ]
 }
