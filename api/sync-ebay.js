@@ -1,8 +1,10 @@
 // api/sync-ebay.js
-// Sincroniza vendas das 3 contas eBay para o Supabase
+// Sincroniza vendas das 3 contas eBay usando OAuth
 
 const SUPABASE_URL = process.env.SUPABASE_URL;
 const SUPABASE_KEY = process.env.SUPABASE_ANON_KEY;
+const APP_ID = process.env.EBAY_APP_ID;
+const CERT_ID = process.env.EBAY_CERT_ID;
 
 const CONTAS = [
   { nome: "eBay Nilson 1", token: process.env.EBAY_TOKEN_1 },
@@ -10,32 +12,36 @@ const CONTAS = [
   { nome: "eBay Nilson 3", token: process.env.EBAY_TOKEN_3 },
 ];
 
-async function buscarVendasEbay(conta) {
-  const url = "https://api.ebay.com/sell/fulfillment/v1/order?limit=50&filter=orderfulfillmentstatus:%7BNOT_STARTED%7CIN_PROGRESS%7D";
+async function obterAccessToken(userToken) {
+  const credenciais = Buffer.from(`${APP_ID}:${CERT_ID}`).toString("base64");
 
-  const resposta = await fetch(url, {
+  const resposta = await fetch("https://api.ebay.com/identity/v1/oauth2/token", {
+    method: "POST",
     headers: {
-      "Authorization": `Bearer ${conta.token}`,
-      "Content-Type": "application/json",
-      "X-EBAY-C-MARKETPLACE-ID": "EBAY_GB",
+      "Authorization": `Basic ${credenciais}`,
+      "Content-Type": "application/x-www-form-urlencoded",
     },
+    body: new URLSearchParams({
+      grant_type: "client_credentials",
+      scope: "https://api.ebay.com/oauth/api_scope/sell.fulfillment.readonly",
+    }).toString(),
   });
 
   if (!resposta.ok) {
     const erro = await resposta.text();
-    throw new Error(`Erro ${resposta.status}: ${erro}`);
+    throw new Error(`Erro ao obter access token: ${erro}`);
   }
 
   const dados = await resposta.json();
-  return dados.orders || [];
+  return dados.access_token;
 }
 
-async function buscarVendasConcluidasEbay(conta) {
+async function buscarVendasEbay(accessToken) {
   const url = "https://api.ebay.com/sell/fulfillment/v1/order?limit=50";
 
   const resposta = await fetch(url, {
     headers: {
-      "Authorization": `Bearer ${conta.token}`,
+      "Authorization": `Bearer ${accessToken}`,
       "Content-Type": "application/json",
       "X-EBAY-C-MARKETPLACE-ID": "EBAY_GB",
     },
@@ -90,6 +96,18 @@ async function guardarNoSupabase(vendas, nomeConta) {
 export default async function handler(req, res) {
   const resultados = [];
 
+  // Primeiro obtemos um access token de aplicação
+  let accessToken;
+  try {
+    accessToken = await obterAccessToken();
+  } catch (erro) {
+    return res.status(500).json({
+      erro: "Falha ao obter access token da aplicação",
+      detalhe: erro.message,
+    });
+  }
+
+  // Depois buscamos as vendas de cada conta
   for (const conta of CONTAS) {
     if (!conta.token) {
       resultados.push({ conta: conta.nome, erro: "Token não configurado" });
@@ -97,7 +115,7 @@ export default async function handler(req, res) {
     }
 
     try {
-      const vendas = await buscarVendasConcluidasEbay(conta);
+      const vendas = await buscarVendasEbay(accessToken);
       const { inseridos } = await guardarNoSupabase(vendas, conta.nome);
       resultados.push({
         conta: conta.nome,
