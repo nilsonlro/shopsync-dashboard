@@ -1,16 +1,11 @@
 // api/sync-vinted.js
-// Sincroniza encomendas das 2 contas Vinted para a Supabase
-// Corre automaticamente a cada 6 horas via Vercel Cron
+// Sem dependências externas — usa apenas fetch nativo do Node.js 18
 
-const { createClient } = require('@supabase/supabase-js');
+const SUPABASE_URL      = process.env.SUPABASE_URL;
+const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY;
+const BASE_URL          = 'https://www.vinted.co.uk';
 
-const db = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_ANON_KEY
-);
-
-// Configuração das 2 contas Vinted
-const CONTAS_VINTED = [
+const CONTAS = [
   {
     nome:     'Vinted Nilson',
     email:    process.env.VINTED_EMAIL_NILSON,
@@ -23,125 +18,107 @@ const CONTAS_VINTED = [
   },
 ];
 
-const BASE_URL = 'https://www.vinted.co.uk';
-
-// ── Fazer login numa conta Vinted ──────────────────────────
-async function loginVinted(email, password) {
-  try {
-    // Passo 1 — obter cookie de sessão inicial
-    const res1 = await fetch(BASE_URL + '/web/api/v2/oauth/token', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'User-Agent': 'Mozilla/5.0' },
-      body: JSON.stringify({
-        client_id:  'web',
-        grant_type: 'password',
-        username:   email,
-        password:   password,
-        scope:      'user public',
-      }),
-    });
-
-    if (!res1.ok) {
-      const text = await res1.text();
-      throw new Error('Login falhou (' + res1.status + '): ' + text.slice(0, 200));
-    }
-
-    const dados = await res1.json();
-    return dados.access_token;
-  } catch (e) {
-    throw new Error('Erro no login Vinted: ' + e.message);
+async function supabaseUpsert(vendas) {
+  const res = await fetch(SUPABASE_URL + '/rest/v1/vendas', {
+    method:  'POST',
+    headers: {
+      'apikey':        SUPABASE_ANON_KEY,
+      'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+      'Content-Type':  'application/json',
+      'Prefer':        'resolution=merge-duplicates',
+    },
+    body: JSON.stringify(vendas),
+  });
+  if (!res.ok) {
+    const txt = await res.text();
+    throw new Error('Supabase erro ' + res.status + ': ' + txt);
   }
+  return vendas.length;
 }
 
-// ── Buscar encomendas de uma conta ────────────────────────
-async function buscarEncomendas(token, nomeConta) {
-  const res = await fetch(BASE_URL + '/api/v2/transactions?page=1&per_page=50', {
+async function loginVinted(email, password) {
+  const r1 = await fetch(BASE_URL + '/api/v2/homepage', {
+    headers: { 'User-Agent': 'Mozilla/5.0', 'Accept': 'application/json' },
+  });
+  const cookies1 = (r1.headers.get('set-cookie') || '').split(',').map(c => c.trim().split(';')[0]).join('; ');
+
+  const r2 = await fetch(BASE_URL + '/api/v2/login', {
+    method:  'POST',
     headers: {
-      'Authorization': 'Bearer ' + token,
-      'User-Agent':    'Mozilla/5.0',
+      'Content-Type': 'application/json',
+      'User-Agent':   'Mozilla/5.0',
+      'Cookie':       cookies1,
     },
+    body: JSON.stringify({ login: email, password }),
   });
 
-  if (!res.ok) throw new Error('Erro ao buscar encomendas: ' + res.status);
+  if (!r2.ok) throw new Error('Login falhou: ' + r2.status);
+  const dados = await r2.json();
+  const cookies2 = (r2.headers.get('set-cookie') || '').split(',').map(c => c.trim().split(';')[0]).join('; ');
+  const token    = (dados.user && dados.user.auth_token) || dados.access_token || null;
 
-  const dados = await res.json();
-  const transacoes = dados.transactions || dados.items || [];
+  return { token, cookies: cookies1 + '; ' + cookies2 };
+}
 
-  return transacoes.map(t => ({
-    plataforma:  'Vinted',
-    conta:       nomeConta,
-    order_id:    'VT-' + t.id,
-    produto:     t.item_title || t.title || 'Produto Vinted',
-    valor:       parseFloat(t.total_item_price || t.price || 0),
-    moeda:       'GBP',
-    comprador:   t.buyer_login || t.buyer?.login || '—',
-    estado:      mapEstado(t.status),
-    data_venda:  t.created_at || new Date().toISOString(),
+async function buscarTransacoes(auth, nomeConta) {
+  const headers = { 'User-Agent': 'Mozilla/5.0', 'Accept': 'application/json' };
+  if (auth.token)   headers['X-Auth-Token'] = auth.token;
+  if (auth.cookies) headers['Cookie']       = auth.cookies;
+
+  const r = await fetch(BASE_URL + '/api/v2/transactions?page=1&per_page=50', { headers });
+  if (!r.ok) throw new Error('Erro transaccoes: ' + r.status);
+
+  const dados = await r.json();
+  const lista = dados.transactions || dados.items || [];
+
+  const estados = {
+    completed: 'delivered', delivered: 'delivered',
+    shipped: 'sent', in_transit: 'sent',
+    awaiting_shipment: 'pending', confirmed: 'pending',
+    cancelled: 'cancelled',
+  };
+
+  return lista.map(t => ({
+    plataforma: 'Vinted',
+    conta:      nomeConta,
+    order_id:   'VT-' + t.id,
+    produto:    t.item_title || t.title || 'Produto Vinted',
+    valor:      parseFloat(t.total_item_price || t.price || 0),
+    moeda:      'GBP',
+    comprador:  (t.buyer && t.buyer.login) || t.buyer_login || '-',
+    estado:     estados[t.status] || 'pending',
+    data_venda: t.created_at || new Date().toISOString(),
   }));
 }
 
-// ── Mapear estados do Vinted para o nosso sistema ─────────
-function mapEstado(status) {
-  const mapa = {
-    'completed':         'delivered',
-    'delivered':         'delivered',
-    'shipped':           'sent',
-    'in_transit':        'sent',
-    'awaiting_shipment': 'pending',
-    'confirmed':         'pending',
-    'cancelled':         'cancelled',
-  };
-  return mapa[status] || 'pending';
-}
-
-// ── Guardar encomendas na Supabase ────────────────────────
-async function guardarEncomendas(encomendas) {
-  if (!encomendas.length) return 0;
-
-  const { data, error } = await db
-    .from('vendas')
-    .upsert(encomendas, { onConflict: 'order_id', ignoreDuplicates: false });
-
-  if (error) throw new Error('Erro Supabase: ' + error.message);
-  return encomendas.length;
-}
-
-// ── Handler principal ─────────────────────────────────────
 module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Content-Type', 'application/json');
 
-  const resultados = {
-    sincronizado: new Date().toISOString(),
-    contas: [],
+  const resultado = {
+    ok: true,
+    sincronizado:    new Date().toISOString(),
+    contas:          [],
     total_importado: 0,
-    erros: [],
+    erros:           [],
   };
 
-  for (const conta of CONTAS_VINTED) {
+  for (const conta of CONTAS) {
     try {
-      console.log('A sincronizar:', conta.nome);
-
-      // Login
-      const token = await loginVinted(conta.email, conta.password);
-
-      // Buscar encomendas
-      const encomendas = await buscarEncomendas(token, conta.nome);
-
-      // Guardar na BD
-      const total = await guardarEncomendas(encomendas);
-
-      resultados.contas.push({ nome: conta.nome, importado: total, ok: true });
-      resultados.total_importado += total;
-
-      console.log(conta.nome + ': ' + total + ' encomendas sincronizadas');
-
+      if (!conta.email || !conta.password) {
+        throw new Error('Credenciais nao configuradas no Vercel');
+      }
+      const auth       = await loginVinted(conta.email, conta.password);
+      const transacoes = await buscarTransacoes(auth, conta.nome);
+      const total      = transacoes.length ? await supabaseUpsert(transacoes) : 0;
+      resultado.contas.push({ nome: conta.nome, importado: total, ok: true });
+      resultado.total_importado += total;
     } catch (e) {
-      console.error(conta.nome + ' erro:', e.message);
-      resultados.erros.push({ conta: conta.nome, erro: e.message });
-      resultados.contas.push({ nome: conta.nome, importado: 0, ok: false, erro: e.message });
+      resultado.erros.push({ conta: conta.nome, erro: e.message });
+      resultado.contas.push({ nome: conta.nome, importado: 0, ok: false, erro: e.message });
     }
   }
 
-  const status = resultados.erros.length === CONTAS_VINTED.length ? 500 : 200;
-  res.status(status).json(resultados);
+  if (resultado.erros.length > 0) resultado.ok = false;
+  res.status(200).json(resultado);
 };
