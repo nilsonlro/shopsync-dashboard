@@ -1,3 +1,4 @@
+// v2 - sem dependencias
 // api/sync-vinted.js
 // Sem dependências externas — usa apenas fetch nativo do Node.js 18
 
