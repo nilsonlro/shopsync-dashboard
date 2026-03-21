@@ -34,7 +34,7 @@
     html, body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; font-size: 14px; line-height: 1.5; min-height: 100vh; }
     .shell { display: flex; min-height: 100vh; }
 
-    /* ── Sidebar ── */
+    /* Sidebar */
     .sidebar { width: 220px; flex-shrink: 0; background: var(--surface); border-right: 0.5px solid var(--border); display: flex; flex-direction: column; padding: 1.5rem 1rem; position: sticky; top: 0; height: 100vh; overflow-y: auto; }
     .sidebar-logo { font-size: 18px; font-weight: 600; color: var(--text); margin-bottom: 2rem; letter-spacing: -0.02em; padding: 0 8px; display: flex; align-items: center; gap: 8px; }
     .sidebar-logo span { color: var(--green); }
@@ -42,16 +42,12 @@
     .nav-item { display: flex; align-items: center; gap: 10px; padding: 9px 10px; border-radius: var(--radius-md); font-size: 13px; color: var(--text-2); cursor: pointer; text-decoration: none; transition: background 0.15s, color 0.15s; margin-bottom: 2px; }
     .nav-item:hover { background: var(--surface-2); color: var(--text); }
     .nav-item.active { background: var(--green-bg); color: var(--green-text); font-weight: 500; }
-    .nav-icon { width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
     .nav-badge { margin-left: auto; font-size: 10px; background: var(--amber-bg); color: var(--amber-text); padding: 2px 7px; border-radius: 20px; font-weight: 500; }
     .nav-divider { height: 0.5px; background: var(--border); margin: 10px 8px; }
     .sidebar-footer { margin-top: auto; padding: 12px 8px 0; border-top: 0.5px solid var(--border); }
-    .user-row { display: flex; align-items: center; gap: 9px; }
-    .avatar { width: 30px; height: 30px; border-radius: 50%; background: var(--green-bg); color: var(--green-text); font-size: 12px; font-weight: 500; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-    .user-name { font-size: 13px; font-weight: 500; }
-    .user-plan { font-size: 11px; color: var(--text-3); }
+    .nav-svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
 
-    /* ── Main ── */
+    /* Main */
     .main { flex: 1; min-width: 0; padding: 2rem; overflow-x: hidden; }
     .topbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 12px; }
     .topbar-left h1 { font-size: 20px; font-weight: 600; letter-spacing: -0.02em; }
@@ -60,17 +56,18 @@
     .badge-live { font-size: 11px; padding: 4px 10px; border-radius: 20px; background: var(--green-bg); color: var(--green-text); font-weight: 500; display: flex; align-items: center; gap: 5px; }
     .badge-live::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: pulse 1.8s infinite; }
     @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+    @keyframes spin { to { transform: rotate(360deg); } }
     select.ctrl, button.ctrl { font-size: 13px; padding: 7px 12px; border-radius: var(--radius-md); border: 0.5px solid var(--border-md); background: var(--surface); color: var(--text); cursor: pointer; transition: background 0.15s; }
     select.ctrl:hover, button.ctrl:hover { background: var(--surface-2); }
     button.ctrl-primary { background: var(--green); color: #fff; border-color: var(--green); }
     button.ctrl-primary:hover { background: var(--green-dark); }
 
-    /* ── Alert ── */
+    /* Alert */
     .alert { background: var(--amber-bg); border: 0.5px solid rgba(186,117,23,0.3); border-radius: var(--radius-md); padding: 11px 16px; font-size: 13px; color: var(--amber-text); display: flex; align-items: center; gap: 10px; margin-bottom: 1.5rem; }
     .alert-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--amber); flex-shrink: 0; animation: pulse 1.8s infinite; }
     .alert.hidden { display: none; }
 
-    /* ── Metrics ── */
+    /* Metrics */
     .metrics-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-bottom: 1.5rem; }
     @media (max-width: 900px) { .metrics-grid { grid-template-columns: repeat(3, 1fr); } }
     @media (max-width: 560px)  { .metrics-grid { grid-template-columns: repeat(2, 1fr); } }
@@ -81,14 +78,24 @@
     .delta-up { color: var(--green-text); }
     .delta-dn { color: var(--coral-text); }
 
-    /* ── Cards ── */
+    /* Contas eBay */
+    .accounts-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 1.5rem; }
+    @media (max-width: 780px) { .accounts-grid { grid-template-columns: 1fr; } }
+    .account-card { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1rem 1.2rem; }
+    .account-header { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+    .account-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--blue); flex-shrink: 0; }
+    .account-name { font-size: 12px; font-weight: 500; color: var(--text-2); text-transform: uppercase; letter-spacing: 0.05em; }
+    .account-value { font-size: 22px; font-weight: 600; letter-spacing: -0.02em; color: var(--text); }
+    .account-sub { font-size: 12px; color: var(--text-3); margin-top: 4px; }
+
+    /* Cards */
     .card { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1.2rem 1.4rem; }
     .card-title { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-2); margin-bottom: 1rem; }
     .grid-2  { display: grid; grid-template-columns: 1.4fr 1fr; gap: 12px; margin-bottom: 1.5rem; }
     .grid-2b { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 1.5rem; }
     @media (max-width: 780px) { .grid-2, .grid-2b { grid-template-columns: 1fr; } }
 
-    /* ── Platform bars ── */
+    /* Platform bars */
     .platform-row { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 0.5px solid var(--border); }
     .platform-row:last-child { border-bottom: none; }
     .pdot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
@@ -98,9 +105,9 @@
     .pval { font-size: 13px; font-weight: 500; min-width: 54px; text-align: right; }
     .ppct { font-size: 11px; color: var(--text-3); min-width: 30px; text-align: right; }
 
-    /* ── Orders ── */
+    /* Orders */
     .orders-wrap { margin-bottom: 1.5rem; }
-    .tabs { display: flex; border-bottom: 0.5px solid var(--border); margin-bottom: 1rem; }
+    .tabs { display: flex; border-bottom: 0.5px solid var(--border); margin-bottom: 1rem; flex-wrap: wrap; }
     .tab { font-size: 13px; padding: 8px 14px; color: var(--text-2); cursor: pointer; border: none; background: none; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: color 0.15s; }
     .tab:hover { color: var(--text); }
     .tab.active { color: var(--green); border-bottom-color: var(--green); font-weight: 500; }
@@ -115,13 +122,16 @@
     .b-sent      { background: var(--blue-bg);  color: var(--blue-text); }
     .b-delivered { background: var(--green-bg); color: var(--green-text); }
     .b-cancelled { background: var(--red-bg);   color: var(--red-text); }
+    .b-in_progress { background: var(--blue-bg); color: var(--blue-text); }
+    .b-not_started { background: var(--amber-bg); color: var(--amber-text); }
+    .b-fulfilled { background: var(--green-bg); color: var(--green-text); }
     .pi { font-size: 11px; padding: 2px 8px; border-radius: 4px; font-weight: 500; }
     .pi-ebay   { background: var(--blue-bg);  color: var(--blue-text); }
     .pi-vinted { background: var(--green-bg); color: var(--green-text); }
     .pi-etsy   { background: var(--coral-bg); color: var(--coral-text); }
     .pi-amazon { background: var(--amber-bg); color: var(--amber-text); }
 
-    /* ── Stock ── */
+    /* Stock */
     .stock-item { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 0.5px solid var(--border); }
     .stock-item:last-child { border-bottom: none; }
     .stock-name { font-size: 13px; flex: 1; }
@@ -130,70 +140,57 @@
     .stock-qty { font-size: 13px; font-weight: 500; min-width: 40px; text-align: right; }
     .stock-warn { color: var(--coral-text); }
 
-    /* ── Misc ── */
+    /* Misc */
     .chart-legend { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 10px; }
     .leg { display: flex; align-items: center; gap: 5px; font-size: 12px; color: var(--text-2); }
     .leg-sq { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
     .spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid var(--border-md); border-top-color: var(--green); border-radius: 50%; animation: spin 0.7s linear infinite; vertical-align: middle; margin-right: 6px; }
-    @keyframes spin { to { transform: rotate(360deg); } }
     .status-dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; margin-right: 5px; }
     .dot-ok  { background: var(--green); }
     .dot-err { background: var(--coral); }
     .actions { display: flex; gap: 8px; flex-wrap: wrap; }
     @media (max-width: 680px) { .sidebar { display: none; } .main { padding: 1rem; } }
-
-    /* ── Nav SVG icons ── */
-    .nav-svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
   </style>
 </head>
 <body>
 <div class="shell">
 
-  <!-- ── Sidebar ── -->
+  <!-- Sidebar -->
   <aside class="sidebar">
     <div class="sidebar-logo">
       <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="2" y="2" width="8" height="8" rx="2" fill="#1D9E75"/><rect x="12" y="2" width="8" height="8" rx="2" fill="#1D9E75" opacity=".5"/><rect x="2" y="12" width="8" height="8" rx="2" fill="#1D9E75" opacity=".5"/><rect x="12" y="12" width="8" height="8" rx="2" fill="#1D9E75"/></svg>
       Shop<span>Sync</span>
     </div>
-
     <div class="nav-section">Gestão</div>
-
     <a class="nav-item active" href="index.html">
       <svg class="nav-svg" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
       Dashboard
     </a>
-
     <a class="nav-item" href="encomendas.html">
       <svg class="nav-svg" viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 12h6M9 16h4"/></svg>
       Encomendas
       <span class="nav-badge" id="pendingBadge">0</span>
     </a>
-
     <a class="nav-item" href="stock.html">
-      <svg class="nav-svg" viewBox="0 0 24 24"><path d="M20 7H4a1 1 0 00-1 1v10a1 1 0 001 1h16a1 1 0 001-1V8a1 1 0 00-1-1z"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg>
+      <svg class="nav-svg" viewBox="0 0 24 24"><path d="M20 7H4a1 1 0 00-1 1v10a1 1 0 001 1h16a1 1 0 001-1V8a1 1 0 00-1-1z"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg>
       Stock
     </a>
-
     <a class="nav-item" href="produtos.html">
       <svg class="nav-svg" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
       Produtos
     </a>
-
     <div class="nav-divider"></div>
     <div class="nav-section">Plataformas</div>
-
     <a class="nav-item" href="https://www.ebay.co.uk/sh/ovw" target="_blank">
       <svg class="nav-svg" viewBox="0 0 24 24" style="color:var(--blue);"><circle cx="12" cy="12" r="10"/><path d="M8 12h8M12 8v8"/></svg>
       <span style="flex:1;">eBay</span>
       <svg width="10" height="10" viewBox="0 0 10 10" fill="none" style="color:var(--text-3);flex-shrink:0;"><path d="M2 2h6v6M2 8l6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
     </a>
-
     <a class="nav-item" href="https://www.vinted.co.uk/member/inbox" target="_blank">
       <svg class="nav-svg" viewBox="0 0 24 24" style="color:var(--green);"><circle cx="12" cy="12" r="10"/><path d="M8 12h8M12 8v8"/></svg>
       <span style="flex:1;">Vinted</span>
       <svg width="10" height="10" viewBox="0 0 10 10" fill="none" style="color:var(--text-3);flex-shrink:0;"><path d="M2 2h6v6M2 8l6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
     </a>
-
     <div class="sidebar-footer">
       <div style="font-size:11px;color:var(--text-3);margin-bottom:8px;display:flex;align-items:center;gap:5px;">
         <span class="status-dot dot-ok" id="dbStatusDot"></span>
@@ -202,7 +199,7 @@
     </div>
   </aside>
 
-  <!-- ── Main ── -->
+  <!-- Main -->
   <main class="main">
     <div class="topbar">
       <div class="topbar-left">
@@ -215,7 +212,9 @@
           <option value="7">Últimos 7 dias</option>
           <option value="30" selected>Últimos 30 dias</option>
           <option value="90">Últimos 90 dias</option>
+          <option value="365">Este ano</option>
         </select>
+        <button class="ctrl" onclick="carregarDados(currentPeriod)">↻ Atualizar</button>
         <button class="ctrl ctrl-primary" onclick="window.print()">Exportar PDF</button>
       </div>
     </div>
@@ -225,34 +224,88 @@
       <span id="alertText"></span>
     </div>
 
+    <!-- Métricas principais -->
     <div class="metrics-grid">
-      <div class="metric"><div class="metric-label">Receita total</div><div class="metric-value" id="m-rev"><span class="spinner"></span></div><div class="metric-delta delta-up">&nbsp;</div></div>
-      <div class="metric"><div class="metric-label">Encomendas</div><div class="metric-value" id="m-ord"><span class="spinner"></span></div><div class="metric-delta delta-up">&nbsp;</div></div>
-      <div class="metric"><div class="metric-label">Valor médio</div><div class="metric-value" id="m-avg"><span class="spinner"></span></div><div class="metric-delta delta-up">por encomenda</div></div>
-      <div class="metric"><div class="metric-label">Pendentes</div><div class="metric-value" id="m-pend"><span class="spinner"></span></div><div class="metric-delta delta-dn">aguardam envio</div></div>
-      <div class="metric"><div class="metric-label">Entregues</div><div class="metric-value" id="m-del"><span class="spinner"></span></div><div class="metric-delta delta-up">neste período</div></div>
+      <div class="metric">
+        <div class="metric-label">Receita total</div>
+        <div class="metric-value" id="m-rev"><span class="spinner"></span></div>
+        <div class="metric-delta delta-up" id="m-rev-sub">&nbsp;</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Encomendas</div>
+        <div class="metric-value" id="m-ord"><span class="spinner"></span></div>
+        <div class="metric-delta delta-up" id="m-ord-sub">&nbsp;</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Valor médio</div>
+        <div class="metric-value" id="m-avg"><span class="spinner"></span></div>
+        <div class="metric-delta delta-up">por encomenda</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Pendentes</div>
+        <div class="metric-value" id="m-pend"><span class="spinner"></span></div>
+        <div class="metric-delta delta-dn">aguardam envio</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Entregues</div>
+        <div class="metric-value" id="m-del"><span class="spinner"></span></div>
+        <div class="metric-delta delta-up">neste período</div>
+      </div>
     </div>
 
-    <div class="grid-2">
+    <!-- Contas eBay -->
+    <div style="margin-bottom:0.5rem;">
+      <div style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-3);margin-bottom:10px;">Receita por conta eBay</div>
+      <div class="accounts-grid">
+        <div class="account-card">
+          <div class="account-header">
+            <div class="account-dot"></div>
+            <div class="account-name">eBay Nilson 1</div>
+          </div>
+          <div class="account-value" id="acc-1-val"><span class="spinner"></span></div>
+          <div class="account-sub" id="acc-1-sub">— encomendas</div>
+        </div>
+        <div class="account-card">
+          <div class="account-header">
+            <div class="account-dot" style="background:var(--green);"></div>
+            <div class="account-name">eBay Nilson 2</div>
+          </div>
+          <div class="account-value" id="acc-2-val"><span class="spinner"></span></div>
+          <div class="account-sub" id="acc-2-sub">— encomendas</div>
+        </div>
+        <div class="account-card">
+          <div class="account-header">
+            <div class="account-dot" style="background:var(--amber);"></div>
+            <div class="account-name">eBay Nilson 3</div>
+          </div>
+          <div class="account-value" id="acc-3-val"><span class="spinner"></span></div>
+          <div class="account-sub" id="acc-3-sub">— encomendas</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gráficos -->
+    <div class="grid-2" style="margin-top:1.5rem;">
       <div class="card">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:8px;">
-          <div class="card-title" style="margin-bottom:0;">Receita por plataforma</div>
+          <div class="card-title" style="margin-bottom:0;">Receita por conta</div>
           <div class="chart-legend">
-            <div class="leg"><div class="leg-sq" style="background:#185FA5;"></div>eBay</div>
-            <div class="leg"><div class="leg-sq" style="background:#1D9E75;"></div>Vinted</div>
-            <div class="leg"><div class="leg-sq" style="background:#D85A30;"></div>Etsy</div>
-            <div class="leg"><div class="leg-sq" style="background:#BA7517;"></div>Amazon</div>
+            <div class="leg"><div class="leg-sq" style="background:#185FA5;"></div>Nilson 1</div>
+            <div class="leg"><div class="leg-sq" style="background:#1D9E75;"></div>Nilson 2</div>
+            <div class="leg"><div class="leg-sq" style="background:#BA7517;"></div>Nilson 3</div>
+            <div class="leg"><div class="leg-sq" style="background:#1D9E75;opacity:0.5;"></div>Vinted</div>
           </div>
         </div>
         <div style="position:relative;width:100%;height:220px;"><canvas id="chartRevenue"></canvas></div>
       </div>
       <div class="card">
-        <div class="card-title">Distribuição de vendas</div>
+        <div class="card-title">Distribuição por conta</div>
         <div id="platformBars"></div>
-        <div style="position:relative;width:100%;height:140px;margin-top:1.2rem;"><canvas id="chartDonut"></canvas></div>
+        <div style="position:relative;width:100%;height:130px;margin-top:1rem;"><canvas id="chartDonut"></canvas></div>
       </div>
     </div>
 
+    <!-- Tabela encomendas -->
     <div class="card orders-wrap">
       <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
         <div class="card-title" style="margin-bottom:0;">Encomendas recentes</div>
@@ -263,18 +316,32 @@
       </div>
       <div class="tabs" style="margin-top:1rem;">
         <button class="tab active" onclick="filterTab('all',this)">Todas</button>
-        <button class="tab" onclick="filterTab('pending',this)">Pendentes</button>
-        <button class="tab" onclick="filterTab('sent',this)">Enviadas</button>
-        <button class="tab" onclick="filterTab('delivered',this)">Entregues</button>
+        <button class="tab" onclick="filterTab('eBay Nilson 1',this)">Nilson 1</button>
+        <button class="tab" onclick="filterTab('eBay Nilson 2',this)">Nilson 2</button>
+        <button class="tab" onclick="filterTab('eBay Nilson 3',this)">Nilson 3</button>
+        <button class="tab" onclick="filterTab('Vinted',this)">Vinted</button>
       </div>
       <div class="table-scroll">
         <table class="otable">
-          <thead><tr><th>Nº</th><th>Produto</th><th>Plataforma</th><th>Comprador</th><th>Valor</th><th>Estado</th><th>Data</th></tr></thead>
-          <tbody id="ordersTbody"><tr><td colspan="7" style="text-align:center;padding:2rem;color:var(--text-3);"><span class="spinner"></span> A carregar...</td></tr></tbody>
+          <thead>
+            <tr>
+              <th>Ref.</th>
+              <th>Produto</th>
+              <th>Conta</th>
+              <th>Comprador</th>
+              <th>Valor</th>
+              <th>Estado</th>
+              <th>Data</th>
+            </tr>
+          </thead>
+          <tbody id="ordersTbody">
+            <tr><td colspan="7" style="text-align:center;padding:2rem;color:var(--text-3);"><span class="spinner"></span> A carregar...</td></tr>
+          </tbody>
         </table>
       </div>
     </div>
 
+    <!-- Stock + Tendência -->
     <div class="grid-2b">
       <div class="card">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;">
@@ -286,10 +353,11 @@
       <div class="card">
         <div class="card-title">Tendência semanal</div>
         <div class="chart-legend">
-          <div class="leg"><div class="leg-sq" style="background:#185FA5;"></div>eBay</div>
-          <div class="leg"><div class="leg-sq" style="background:#1D9E75;"></div>Vinted</div>
+          <div class="leg"><div class="leg-sq" style="background:#185FA5;"></div>Nilson 1</div>
+          <div class="leg"><div class="leg-sq" style="background:#1D9E75;"></div>Nilson 2</div>
+          <div class="leg"><div class="leg-sq" style="background:#BA7517;"></div>Nilson 3</div>
         </div>
-        <div style="position:relative;width:100%;height:180px;"><canvas id="chartWeek"></canvas></div>
+        <div style="position:relative;width:100%;height:160px;"><canvas id="chartWeek"></canvas></div>
       </div>
     </div>
 
@@ -312,129 +380,321 @@
   let currentPeriod = 30, allOrders = [], currentFilter = 'all';
   let chartRev = null, chartDonut = null, chartWeek = null;
 
-  const PLATFORM_COLORS = { eBay:'#185FA5', Vinted:'#1D9E75', Etsy:'#D85A30', Amazon:'#BA7517' };
-  const PLATFORM_CLASS  = { eBay:'pi-ebay', Vinted:'pi-vinted', Etsy:'pi-etsy', Amazon:'pi-amazon' };
-  const STATUS_MAP = { pending:['b-pending','Pendente'], sent:['b-sent','Enviada'], delivered:['b-delivered','Entregue'], cancelled:['b-cancelled','Cancelada'] };
+  const CONTA_CORES = {
+    'eBay Nilson 1': '#185FA5',
+    'eBay Nilson 2': '#1D9E75',
+    'eBay Nilson 3': '#BA7517',
+    'Vinted Nilson': '#5DCAA5',
+    'Vinted Jaqueline': '#0F6E56',
+  };
 
+  const STATUS_MAP = {
+    pending:      ['b-pending',     'Pendente'],
+    sent:         ['b-sent',        'Enviada'],
+    delivered:    ['b-delivered',   'Entregue'],
+    cancelled:    ['b-cancelled',   'Cancelada'],
+    NOT_STARTED:  ['b-pending',     'Por iniciar'],
+    IN_PROGRESS:  ['b-sent',        'Em curso'],
+    FULFILLED:    ['b-delivered',   'Concluída'],
+    not_started:  ['b-pending',     'Por iniciar'],
+    in_progress:  ['b-sent',        'Em curso'],
+    fulfilled:    ['b-delivered',   'Concluída'],
+  };
+
+  function fmt(v) { return '£' + parseFloat(v||0).toLocaleString('en-GB', {minimumFractionDigits:2, maximumFractionDigits:2}); }
   function daysAgo(n) { const d = new Date(); d.setDate(d.getDate()-n); return d.toISOString(); }
-  const DEMO = [
-    {id:1,plataforma:'eBay',  order_id:'EB-1046',produto:'Câmara Leica M3', valor:340,comprador:'John T.',  estado:'sent',     data_venda:daysAgo(1)},
-    {id:2,plataforma:'Vinted',order_id:'VT-1047',produto:'Casaco Zara M',   valor:78, comprador:'Maria S.', estado:'pending',  data_venda:daysAgo(0)},
-    {id:3,plataforma:'Etsy',  order_id:'ET-1045',produto:'Brincos prata',   valor:65, comprador:'Claire D.',estado:'delivered',data_venda:daysAgo(2)},
-    {id:4,plataforma:'Amazon',order_id:'AM-1044',produto:'Livros lote 5',   valor:54, comprador:'Pedro A.', estado:'delivered',data_venda:daysAgo(3)},
-    {id:5,plataforma:'eBay',  order_id:'EB-1043',produto:'Relógio Seiko',   valor:210,comprador:'Mike R.',  estado:'pending',  data_venda:daysAgo(3)},
-  ];
 
   document.getElementById('dateLabel').textContent = new Date().toLocaleDateString('pt-PT',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
 
   async function carregarDados(dias) {
     currentPeriod = dias || 30;
-    ['m-rev','m-ord','m-avg','m-pend','m-del'].forEach(id => { document.getElementById(id).innerHTML='<span class="spinner"></span>'; });
-    let vendas=[], demo=false;
+    ['m-rev','m-ord','m-avg','m-pend','m-del','acc-1-val','acc-2-val','acc-3-val'].forEach(id => {
+      const el = document.getElementById(id);
+      if(el) el.innerHTML = '<span class="spinner"></span>';
+    });
+
+    let vendas = [];
     try {
-      const desde = new Date(); desde.setDate(desde.getDate()-currentPeriod);
-      const {data,error} = await db.from('vendas').select('*').gte('data_venda',desde.toISOString()).order('data_venda',{ascending:false});
-      if(error) throw error;
-      vendas = (data&&data.length) ? data : DEMO; demo = !(data&&data.length);
-      setDbStatus(true, demo?'BD sem dados ainda':'Supabase ligado');
-    } catch(e) { vendas=DEMO; demo=true; setDbStatus(false,'Erro na ligação'); }
-    allOrders=vendas; renderTudo(vendas,demo);
+      const desde = new Date();
+      desde.setDate(desde.getDate() - currentPeriod);
+      const { data, error } = await db
+        .from('vendas')
+        .select('*')
+        .gte('data_venda', desde.toISOString())
+        .order('data_venda', { ascending: false });
+
+      if (error) throw error;
+      vendas = data || [];
+      setDbStatus(true, vendas.length ? 'Supabase ligado' : 'Sem dados neste período');
+    } catch(e) {
+      setDbStatus(false, 'Erro na ligação');
+      vendas = [];
+    }
+
+    allOrders = vendas;
+    renderTudo(vendas);
   }
 
-  function setDbStatus(ok,msg) {
-    document.getElementById('dbStatusDot').className='status-dot '+(ok?'dot-ok':'dot-err');
-    document.getElementById('dbStatusText').textContent=msg;
+  function setDbStatus(ok, msg) {
+    document.getElementById('dbStatusDot').className = 'status-dot ' + (ok ? 'dot-ok' : 'dot-err');
+    document.getElementById('dbStatusText').textContent = msg;
   }
 
-  function renderTudo(vendas,demo) {
-    const total=vendas.reduce((s,v)=>s+parseFloat(v.valor||0),0);
-    const media=vendas.length?total/vendas.length:0;
-    const pending=vendas.filter(v=>v.estado==='pending').length;
-    const entregue=vendas.filter(v=>v.estado==='delivered').length;
-    document.getElementById('m-rev').textContent='£'+total.toLocaleString('pt-PT',{minimumFractionDigits:2,maximumFractionDigits:2});
-    document.getElementById('m-ord').textContent=vendas.length;
-    document.getElementById('m-avg').textContent='£'+media.toFixed(2);
-    document.getElementById('m-pend').textContent=pending;
-    document.getElementById('m-del').textContent=entregue;
-    document.getElementById('pendingBadge').textContent=pending;
-    const alertEl=document.getElementById('alertPending');
-    if(pending>0){
-      const pE=vendas.filter(v=>v.estado==='pending'&&v.plataforma==='eBay').length;
-      const pV=vendas.filter(v=>v.estado==='pending'&&v.plataforma==='Vinted').length;
-      const partes=[]; if(pE) partes.push('eBay ('+pE+')'); if(pV) partes.push('Vinted ('+pV+')');
-      const resto=pending-pE-pV; if(resto>0) partes.push('outras ('+resto+')');
-      document.getElementById('alertText').innerHTML='<strong>'+pending+' encomenda'+(pending>1?'s':'')+'</strong> aguarda'+(pending>1?'m':'')+' envio — '+partes.join(' · ');
+  function renderTudo(vendas) {
+    // Métricas gerais
+    const total  = vendas.reduce((s,v) => s + parseFloat(v.valor||0), 0);
+    const media  = vendas.length ? total / vendas.length : 0;
+    const pending = vendas.filter(v => ['pending','NOT_STARTED','not_started'].includes(v.estado)).length;
+    const entregue = vendas.filter(v => ['delivered','FULFILLED','fulfilled'].includes(v.estado)).length;
+
+    document.getElementById('m-rev').textContent  = fmt(total);
+    document.getElementById('m-ord').textContent  = vendas.length;
+    document.getElementById('m-avg').textContent  = fmt(media);
+    document.getElementById('m-pend').textContent = pending;
+    document.getElementById('m-del').textContent  = entregue;
+    document.getElementById('m-rev-sub').textContent = vendas.length + ' transações';
+    document.getElementById('m-ord-sub').textContent = 'últimos ' + currentPeriod + ' dias';
+    document.getElementById('pendingBadge').textContent = pending;
+
+    // Alerta pendentes
+    const alertEl = document.getElementById('alertPending');
+    if (pending > 0) {
+      document.getElementById('alertText').innerHTML =
+        '<strong>' + pending + ' encomenda' + (pending>1?'s':'') + '</strong> aguarda' + (pending>1?'m':'') + ' envio';
       alertEl.classList.remove('hidden');
-    } else { alertEl.classList.add('hidden'); }
-    const porPlat={};
-    vendas.forEach(v=>{ porPlat[v.plataforma]=(porPlat[v.plataforma]||0)+parseFloat(v.valor||0); });
-    renderPlatformBars(porPlat,total); renderDonut(porPlat);
-    renderOrders(allOrders,currentFilter); renderRevChart(vendas); renderWeekChart(vendas); carregarStock();
-    document.getElementById('lastUpdate').textContent=new Date().toLocaleTimeString('pt-PT')+(demo?' (demo)':'');
+    } else {
+      alertEl.classList.add('hidden');
+    }
+
+    // Contas eBay
+    const contas = ['eBay Nilson 1','eBay Nilson 2','eBay Nilson 3'];
+    contas.forEach((conta, i) => {
+      const cv = vendas.filter(v => v.conta === conta);
+      const ct = cv.reduce((s,v) => s + parseFloat(v.valor||0), 0);
+      document.getElementById('acc-'+(i+1)+'-val').textContent = fmt(ct);
+      document.getElementById('acc-'+(i+1)+'-sub').textContent = cv.length + ' encomenda' + (cv.length!==1?'s':'');
+    });
+
+    // Gráficos e tabela
+    renderPlatformBars(vendas, total);
+    renderDonut(vendas);
+    renderOrders(allOrders, currentFilter);
+    renderRevChart(vendas);
+    renderWeekChart(vendas);
+    carregarStock();
+
+    document.getElementById('lastUpdate').textContent = new Date().toLocaleTimeString('pt-PT');
   }
 
-  function renderPlatformBars(porPlat,total) {
-    document.getElementById('platformBars').innerHTML=['eBay','Vinted','Etsy','Amazon'].map(p=>{
-      const val=porPlat[p]||0, pct=total>0?Math.round((val/total)*100):0, cor=PLATFORM_COLORS[p];
-      return '<div class="platform-row"><div class="pdot" style="background:'+cor+';"></div><div class="pname">'+p+'</div><div class="bar-bg"><div class="bar-fill" style="width:'+pct+'%;background:'+cor+';"></div></div><div class="pval">£'+val.toFixed(0)+'</div><div class="ppct">'+pct+'%</div></div>';
+  function renderPlatformBars(vendas, total) {
+    const contas = ['eBay Nilson 1','eBay Nilson 2','eBay Nilson 3','Vinted Nilson','Vinted Jaqueline'];
+    const barras = contas.map(conta => {
+      const val = vendas.filter(v => v.conta === conta).reduce((s,v) => s + parseFloat(v.valor||0), 0);
+      return { conta, val };
+    }).filter(b => b.val > 0);
+
+    if (!barras.length) {
+      document.getElementById('platformBars').innerHTML = '<div style="color:var(--text-3);font-size:13px;padding:1rem 0;text-align:center;">Sem dados</div>';
+      return;
+    }
+
+    document.getElementById('platformBars').innerHTML = barras.map(b => {
+      const pct = total > 0 ? Math.round((b.val/total)*100) : 0;
+      const cor = CONTA_CORES[b.conta] || '#888';
+      const nome = b.conta.replace('eBay ','').replace('Vinted ','');
+      return '<div class="platform-row">' +
+        '<div class="pdot" style="background:'+cor+';"></div>' +
+        '<div class="pname">'+nome+'</div>' +
+        '<div class="bar-bg"><div class="bar-fill" style="width:'+pct+'%;background:'+cor+';"></div></div>' +
+        '<div class="pval">'+fmt(b.val)+'</div>' +
+        '<div class="ppct">'+pct+'%</div>' +
+        '</div>';
     }).join('');
   }
 
-  function renderDonut(porPlat) {
-    const labels=Object.keys(porPlat), values=Object.values(porPlat), colors=labels.map(l=>PLATFORM_COLORS[l]||'#888');
-    if(chartDonut) chartDonut.destroy();
-    chartDonut=new Chart(document.getElementById('chartDonut'),{type:'doughnut',data:{labels,datasets:[{data:values,backgroundColor:colors,borderWidth:0,hoverOffset:4}]},options:{responsive:true,maintainAspectRatio:false,cutout:'68%',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.label+': £'+c.parsed.toFixed(0)}}}}});
+  function renderDonut(vendas) {
+    const contas = ['eBay Nilson 1','eBay Nilson 2','eBay Nilson 3','Vinted Nilson','Vinted Jaqueline'];
+    const dados = contas.map(c => ({
+      label: c.replace('eBay ','').replace('Vinted ',''),
+      val: vendas.filter(v => v.conta === c).reduce((s,v) => s + parseFloat(v.valor||0), 0),
+      cor: CONTA_CORES[c]
+    })).filter(d => d.val > 0);
+
+    if (chartDonut) chartDonut.destroy();
+    chartDonut = new Chart(document.getElementById('chartDonut'), {
+      type: 'doughnut',
+      data: {
+        labels: dados.map(d => d.label),
+        datasets: [{ data: dados.map(d => d.val), backgroundColor: dados.map(d => d.cor), borderWidth: 0, hoverOffset: 4 }]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false, cutout: '68%',
+        plugins: {
+          legend: { display: false },
+          tooltip: { callbacks: { label: c => c.label + ': ' + fmt(c.parsed) } }
+        }
+      }
+    });
   }
 
-  function renderOrders(vendas,filter) {
-    const filtered=filter==='all'?vendas:vendas.filter(v=>v.estado===filter);
-    const tbody=document.getElementById('ordersTbody');
-    if(!filtered.length){tbody.innerHTML='<tr><td colspan="7" style="text-align:center;padding:2rem;color:var(--text-3);">Sem encomendas</td></tr>';return;}
-    tbody.innerHTML=filtered.map(v=>{
-      const [sc,sl]=STATUS_MAP[v.estado]||['b-pending',v.estado];
-      const pc=PLATFORM_CLASS[v.plataforma]||'';
-      const ref='#'+(v.order_id||v.id||'').toString().slice(-4).toUpperCase();
-      const dt=new Date(v.data_venda).toLocaleDateString('pt-PT',{day:'numeric',month:'short'});
-      return '<tr><td style="color:var(--text-3);">'+ref+'</td><td>'+(v.produto||'—')+'</td><td><span class="pi '+pc+'">'+v.plataforma+'</span></td><td style="color:var(--text-2);">'+(v.comprador||'—')+'</td><td style="font-weight:600;">£'+parseFloat(v.valor||0).toFixed(2)+'</td><td><span class="badge '+sc+'">'+sl+'</span></td><td style="color:var(--text-3);">'+dt+'</td></tr>';
+  function renderOrders(vendas, filter) {
+    const filtered = filter === 'all'
+      ? vendas.slice(0, 50)
+      : vendas.filter(v => v.conta === filter || v.plataforma === filter).slice(0, 50);
+
+    const tbody = document.getElementById('ordersTbody');
+    if (!filtered.length) {
+      tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:2rem;color:var(--text-3);">Sem encomendas neste período</td></tr>';
+      return;
+    }
+
+    tbody.innerHTML = filtered.map(v => {
+      const [sc, sl] = STATUS_MAP[v.estado] || ['b-pending', v.estado || '—'];
+      const ref = '#' + (v.order_id || v.id || '').toString().replace('ebay_','').replace('vinted_','').slice(-6).toUpperCase();
+      const dt = new Date(v.data_venda).toLocaleDateString('pt-PT', { day:'numeric', month:'short', year:'2-digit' });
+      const contaShort = (v.conta || v.plataforma || '—').replace('eBay ','').replace('Vinted ','');
+      const corConta = CONTA_CORES[v.conta] || '#888';
+      return '<tr>' +
+        '<td style="color:var(--text-3);font-size:12px;">' + ref + '</td>' +
+        '<td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;">' + (v.produto || '—') + '</td>' +
+        '<td><span style="font-size:11px;padding:2px 8px;border-radius:4px;font-weight:500;background:' + corConta + '22;color:' + corConta + ';">' + contaShort + '</span></td>' +
+        '<td style="color:var(--text-2);">' + (v.comprador || '—') + '</td>' +
+        '<td style="font-weight:600;">' + fmt(v.valor) + '</td>' +
+        '<td><span class="badge ' + sc + '">' + sl + '</span></td>' +
+        '<td style="color:var(--text-3);">' + dt + '</td>' +
+        '</tr>';
     }).join('');
   }
 
-  function filterTab(f,el) { document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active')); el.classList.add('active'); currentFilter=f; renderOrders(allOrders,f); }
+  function filterTab(f, el) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+    currentFilter = f;
+    renderOrders(allOrders, f);
+  }
 
   function renderRevChart(vendas) {
-    const ag={};
-    vendas.forEach(v=>{
-      const d=new Date(v.data_venda);
-      const label=currentPeriod<=7?d.toLocaleDateString('pt-PT',{weekday:'short',day:'numeric'}):currentPeriod<=30?'Sem '+Math.ceil(d.getDate()/7):d.toLocaleDateString('pt-PT',{month:'short'});
-      if(!ag[label]) ag[label]={eBay:0,Vinted:0,Etsy:0,Amazon:0};
-      ag[label][v.plataforma]=(ag[label][v.plataforma]||0)+parseFloat(v.valor||0);
+    const contas = ['eBay Nilson 1','eBay Nilson 2','eBay Nilson 3'];
+    const cores  = ['#185FA5','#1D9E75','#BA7517'];
+    const ag = {};
+
+    vendas.forEach(v => {
+      const d = new Date(v.data_venda);
+      let label;
+      if (currentPeriod <= 7) {
+        label = d.toLocaleDateString('pt-PT', { weekday:'short', day:'numeric' });
+      } else if (currentPeriod <= 30) {
+        const semana = Math.ceil(d.getDate() / 7);
+        label = d.toLocaleDateString('pt-PT', { month:'short' }) + ' S' + semana;
+      } else {
+        label = d.toLocaleDateString('pt-PT', { month:'short', year:'2-digit' });
+      }
+      if (!ag[label]) ag[label] = {};
+      contas.forEach(c => { if (!ag[label][c]) ag[label][c] = 0; });
+      if (contas.includes(v.conta)) {
+        ag[label][v.conta] = (ag[label][v.conta] || 0) + parseFloat(v.valor||0);
+      }
     });
-    const labels=Object.keys(ag), plats=['eBay','Vinted','Etsy','Amazon'], cores=['#185FA5','#1D9E75','#D85A30','#BA7517'];
-    if(chartRev) chartRev.destroy();
-    chartRev=new Chart(document.getElementById('chartRevenue'),{type:'bar',data:{labels,datasets:plats.map((p,i)=>({label:p,data:labels.map(l=>ag[l][p]||0),backgroundColor:cores[i],borderRadius:3,stack:'s'}))},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>' £'+c.parsed.y.toFixed(0)}}},scales:{x:{stacked:true,ticks:{color:'#888',font:{size:11}},grid:{display:false}},y:{stacked:true,ticks:{color:'#888',font:{size:11},callback:v=>'£'+v},grid:{color:'rgba(128,128,128,0.08)'}}}}});
+
+    const labels = Object.keys(ag);
+    if (chartRev) chartRev.destroy();
+    chartRev = new Chart(document.getElementById('chartRevenue'), {
+      type: 'bar',
+      data: {
+        labels,
+        datasets: contas.map((c, i) => ({
+          label: c.replace('eBay ',''),
+          data: labels.map(l => ag[l][c] || 0),
+          backgroundColor: cores[i],
+          borderRadius: 3,
+          stack: 's'
+        }))
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: { callbacks: { label: c => ' ' + c.dataset.label + ': ' + fmt(c.parsed.y) } }
+        },
+        scales: {
+          x: { stacked: true, ticks: { color:'#888', font:{size:11} }, grid: { display:false } },
+          y: { stacked: true, ticks: { color:'#888', font:{size:11}, callback: v => '£'+v }, grid: { color:'rgba(128,128,128,0.08)' } }
+        }
+      }
+    });
   }
 
   function renderWeekChart(vendas) {
-    const dias=['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'], ebay=new Array(7).fill(0), vinted=new Array(7).fill(0);
-    vendas.forEach(v=>{ const d=new Date(v.data_venda).getDay(), val=parseFloat(v.valor||0); if(v.plataforma==='eBay') ebay[d]+=val; if(v.plataforma==='Vinted') vinted[d]+=val; });
-    if(chartWeek) chartWeek.destroy();
-    chartWeek=new Chart(document.getElementById('chartWeek'),{type:'line',data:{labels:dias,datasets:[{label:'eBay',data:ebay,borderColor:'#185FA5',backgroundColor:'rgba(24,95,165,0.07)',tension:0.4,fill:true,pointRadius:3},{label:'Vinted',data:vinted,borderColor:'#1D9E75',backgroundColor:'rgba(29,158,117,0.06)',tension:0.4,fill:true,pointRadius:3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>' £'+c.parsed.y.toFixed(0)}}},scales:{x:{ticks:{color:'#888',font:{size:11}},grid:{display:false}},y:{ticks:{color:'#888',font:{size:11},callback:v=>'£'+v},grid:{color:'rgba(128,128,128,0.08)'}}}}});
+    const dias = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+    const n1 = new Array(7).fill(0);
+    const n2 = new Array(7).fill(0);
+    const n3 = new Array(7).fill(0);
+
+    vendas.forEach(v => {
+      const d = new Date(v.data_venda).getDay();
+      const val = parseFloat(v.valor||0);
+      if (v.conta === 'eBay Nilson 1') n1[d] += val;
+      if (v.conta === 'eBay Nilson 2') n2[d] += val;
+      if (v.conta === 'eBay Nilson 3') n3[d] += val;
+    });
+
+    if (chartWeek) chartWeek.destroy();
+    chartWeek = new Chart(document.getElementById('chartWeek'), {
+      type: 'line',
+      data: {
+        labels: dias,
+        datasets: [
+          { label:'Nilson 1', data:n1, borderColor:'#185FA5', backgroundColor:'rgba(24,95,165,0.07)', tension:0.4, fill:true, pointRadius:3 },
+          { label:'Nilson 2', data:n2, borderColor:'#1D9E75', backgroundColor:'rgba(29,158,117,0.06)', tension:0.4, fill:true, pointRadius:3 },
+          { label:'Nilson 3', data:n3, borderColor:'#BA7517', backgroundColor:'rgba(186,117,23,0.06)', tension:0.4, fill:true, pointRadius:3 },
+        ]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: {
+          legend: { display:false },
+          tooltip: { callbacks: { label: c => ' ' + c.dataset.label + ': ' + fmt(c.parsed.y) } }
+        },
+        scales: {
+          x: { ticks: { color:'#888', font:{size:11} }, grid: { display:false } },
+          y: { ticks: { color:'#888', font:{size:11}, callback: v => '£'+v }, grid: { color:'rgba(128,128,128,0.08)' } }
+        }
+      }
+    });
   }
 
   async function carregarStock() {
-    let items=[];
-    try { const {data}=await db.from('stock').select('*').order('quantidade',{ascending:true}); items=(data&&data.length)?data:[]; } catch(e){}
-    if(!items.length) items=[{produto:'Casacos vintage',quantidade:17},{produto:'Relógios',quantidade:8},{produto:'Câmaras',quantidade:4},{produto:'Livros',quantidade:62},{produto:'Acessórios prata',quantidade:3}];
-    const maxQty=Math.max(...items.map(s=>s.quantidade),1);
-    document.getElementById('stockList').innerHTML=items.map(s=>{
-      const pct=Math.round((s.quantidade/maxQty)*100), cor=s.quantidade<=5?'#E24B4A':s.quantidade<=10?'#BA7517':'#1D9E75', warn=s.quantidade<=5?' stock-warn':'';
-      return '<div class="stock-item"><div class="stock-name">'+s.produto+'</div><div class="stock-bar"><div class="stock-bar-fill" style="width:'+pct+'%;background:'+cor+';"></div></div><div class="stock-qty'+warn+'">'+s.quantidade+(s.quantidade<=5?' ⚠':'')+'</div></div>';
+    let items = [];
+    try {
+      const { data } = await db.from('stock').select('*').order('quantidade', { ascending: true });
+      items = (data && data.length) ? data : [];
+    } catch(e) {}
+
+    if (!items.length) {
+      document.getElementById('stockList').innerHTML = '<div style="color:var(--text-3);font-size:13px;padding:1rem 0;text-align:center;">Sem dados de stock</div>';
+      return;
+    }
+
+    const maxQty = Math.max(...items.map(s => s.quantidade), 1);
+    document.getElementById('stockList').innerHTML = items.map(s => {
+      const pct = Math.round((s.quantidade / maxQty) * 100);
+      const cor = s.quantidade <= 5 ? '#E24B4A' : s.quantidade <= 10 ? '#BA7517' : '#1D9E75';
+      const warn = s.quantidade <= 5 ? ' stock-warn' : '';
+      return '<div class="stock-item">' +
+        '<div class="stock-name">' + s.produto + '</div>' +
+        '<div class="stock-bar"><div class="stock-bar-fill" style="width:'+pct+'%;background:'+cor+';"></div></div>' +
+        '<div class="stock-qty'+warn+'">' + s.quantidade + (s.quantidade <= 5 ? ' ⚠' : '') + '</div>' +
+        '</div>';
     }).join('');
   }
 
   function changePeriod(v) { carregarDados(parseInt(v)); }
+
+  // Carregar ao iniciar
   carregarDados(30);
-  setInterval(()=>carregarDados(currentPeriod), 5*60*1000);
+
+  // Auto-actualizar a cada 5 minutos
+  setInterval(() => carregarDados(currentPeriod), 5 * 60 * 1000);
 </script>
 </body>
 </html>
