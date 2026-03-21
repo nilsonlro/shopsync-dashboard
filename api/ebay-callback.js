@@ -22,8 +22,3 @@ export default async function handler(req, res) {
   const dados = await resposta.json();
   res.status(200).json(dados);
 }
-```
-
-Faz commit **imediatamente** e depois abre:
-```
-https://shopsync-dashboard.vercel.app/api/ebay-callback
