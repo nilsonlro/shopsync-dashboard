@@ -3,8 +3,10 @@ export default async function handler(req, res) {
 
   if (!code) {
     return res.status(400).send(`
-      <h2>Erro: código não recebido</h2>
-      <pre>${JSON.stringify(req.query, null, 2)}</pre>
+      <html><body style="font-family:sans-serif;padding:40px">
+        <h2>Erro: código não recebido</h2>
+        <pre>${JSON.stringify(req.query, null, 2)}</pre>
+      </body></html>
     `);
   }
 
