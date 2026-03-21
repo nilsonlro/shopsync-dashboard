@@ -70,7 +70,7 @@ async function guardarNoSupabase(vendas, nomeConta) {
       "Content-Type": "application/json",
       "apikey": SUPABASE_KEY,
       "Authorization": `Bearer ${SUPABASE_KEY}`,
-      "Prefer": "resolution=ignore-duplicates",
+      "Prefer": "resolution=merge-duplicates",
     },
     body: JSON.stringify(registos),
   });
