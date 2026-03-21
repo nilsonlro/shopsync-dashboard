@@ -50,37 +50,43 @@ async function buscarVendasEbay(accessToken) {
 }
 
 async function guardarNoSupabase(vendas, nomeConta) {
-  if (vendas.length === 0) return { inseridos: 0 };
+  if (vendas.length === 0) return { inseridos: 0, ignorados: 0 };
 
-  const registos = vendas.map((v) => ({
-    plataforma: "eBay",
-    conta: nomeConta,
-    order_id: `ebay_${v.orderId}`,
-    produto: v.lineItems?.[0]?.title || "Produto eBay",
-    valor: parseFloat(v.pricingSummary?.total?.value || 0),
-    moeda: v.pricingSummary?.total?.currency || "GBP",
-    comprador: v.buyer?.username || "Desconhecido",
-    estado: v.orderFulfillmentStatus || "UNKNOWN",
-    data_venda: v.creationDate || new Date().toISOString(),
-  }));
+  let inseridos = 0;
+  let ignorados = 0;
 
-  const resposta = await fetch(`${SUPABASE_URL}/rest/v1/vendas`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "apikey": SUPABASE_KEY,
-      "Authorization": `Bearer ${SUPABASE_KEY}`,
-      "Prefer": "resolution=merge-duplicates",
-    },
-    body: JSON.stringify(registos),
-  });
+  for (const v of vendas) {
+    const registo = {
+      plataforma: "eBay",
+      conta: nomeConta,
+      order_id: `ebay_${v.orderId}`,
+      produto: v.lineItems?.[0]?.title || "Produto eBay",
+      valor: parseFloat(v.pricingSummary?.total?.value || 0),
+      moeda: v.pricingSummary?.total?.currency || "GBP",
+      comprador: v.buyer?.username || "Desconhecido",
+      estado: v.orderFulfillmentStatus || "UNKNOWN",
+      data_venda: v.creationDate || new Date().toISOString(),
+    };
 
-  if (!resposta.ok) {
-    const erro = await resposta.text();
-    throw new Error(`Erro Supabase: ${erro}`);
+    const resposta = await fetch(`${SUPABASE_URL}/rest/v1/vendas`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "apikey": SUPABASE_KEY,
+        "Authorization": `Bearer ${SUPABASE_KEY}`,
+        "Prefer": "resolution=ignore-duplicates",
+      },
+      body: JSON.stringify(registo),
+    });
+
+    if (resposta.status === 201 || resposta.status === 200) {
+      inseridos++;
+    } else {
+      ignorados++;
+    }
   }
 
-  return { inseridos: registos.length };
+  return { inseridos, ignorados };
 }
 
 export default async function handler(req, res) {
@@ -95,11 +101,12 @@ export default async function handler(req, res) {
     try {
       const accessToken = await obterAccessToken(conta.refresh);
       const vendas = await buscarVendasEbay(accessToken);
-      const { inseridos } = await guardarNoSupabase(vendas, conta.nome);
+      const { inseridos, ignorados } = await guardarNoSupabase(vendas, conta.nome);
       resultados.push({
         conta: conta.nome,
         vendas_encontradas: vendas.length,
         inseridos,
+        ignorados,
       });
     } catch (erro) {
       resultados.push({ conta: conta.nome, erro: erro.message });
