@@ -18,12 +18,11 @@
       --coral: #D85A30; --coral-bg: #FAECE7; --coral-text: #993C1D;
       --red-bg: #FCEBEB; --red-text: #A32D2D;
       --radius-md: 8px; --radius-lg: 12px;
-      /* Cores nítidas por conta */
-      --c1: #2563EB; /* Nilson Ebay — azul vivo */
-      --c2: #059669; /* 4Bliss Ebay — verde vivo */
-      --c3: #D97706; /* Jaque Ebay — âmbar vivo */
-      --c4: #7C3AED; /* Nilson Vinted — roxo vivo */
-      --c5: #DB2777; /* 4Bliss Vinted — rosa vivo */
+      --c1: #2563EB;
+      --c2: #059669;
+      --c3: #D97706;
+      --c4: #7C3AED;
+      --c5: #DB2777;
     }
     @media (prefers-color-scheme: dark) {
       :root {
@@ -68,24 +67,26 @@
     .alert.hidden { display: none; }
     .metrics-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-bottom: 1.5rem; }
     @media (max-width: 900px) { .metrics-grid { grid-template-columns: repeat(3, 1fr); } }
-    @media (max-width: 560px)  { .metrics-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 560px) { .metrics-grid { grid-template-columns: repeat(2, 1fr); } }
     .metric { background: var(--surface-2); border-radius: var(--radius-md); padding: 14px 16px; }
     .metric-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-3); margin-bottom: 8px; }
     .metric-value { font-size: 24px; font-weight: 600; letter-spacing: -0.02em; color: var(--text); line-height: 1; }
     .metric-delta { font-size: 12px; margin-top: 6px; }
     .delta-up { color: var(--green-text); }
     .delta-dn { color: var(--coral-text); }
-    .accounts-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 1.5rem; }
-    @media (max-width: 780px) { .accounts-grid { grid-template-columns: 1fr; } }
+    .accounts-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-bottom: 1.5rem; }
+    @media (max-width: 1100px) { .accounts-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 700px) { .accounts-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 480px) { .accounts-grid { grid-template-columns: 1fr; } }
     .account-card { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1rem 1.2rem; border-left: 3px solid transparent; }
     .account-header { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
     .account-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
-    .account-name { font-size: 12px; font-weight: 600; color: var(--text-2); text-transform: uppercase; letter-spacing: 0.05em; }
-    .account-value { font-size: 22px; font-weight: 600; letter-spacing: -0.02em; color: var(--text); }
+    .account-name { font-size: 11px; font-weight: 600; color: var(--text-2); text-transform: uppercase; letter-spacing: 0.05em; }
+    .account-value { font-size: 20px; font-weight: 600; letter-spacing: -0.02em; color: var(--text); }
     .account-sub { font-size: 12px; color: var(--text-3); margin-top: 4px; }
     .card { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1.2rem 1.4rem; }
     .card-title { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-2); margin-bottom: 1rem; }
-    .grid-2  { display: grid; grid-template-columns: 1.4fr 1fr; gap: 12px; margin-bottom: 1.5rem; }
+    .grid-2 { display: grid; grid-template-columns: 1.4fr 1fr; gap: 12px; margin-bottom: 1.5rem; }
     .grid-2b { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 1.5rem; }
     @media (max-width: 780px) { .grid-2, .grid-2b { grid-template-columns: 1fr; } }
     .platform-row { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 0.5px solid var(--border); }
@@ -127,7 +128,7 @@
     .leg-sq { width: 12px; height: 12px; border-radius: 3px; flex-shrink: 0; }
     .spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid var(--border-md); border-top-color: var(--green); border-radius: 50%; animation: spin 0.7s linear infinite; vertical-align: middle; margin-right: 6px; }
     .status-dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; margin-right: 5px; }
-    .dot-ok  { background: var(--green); }
+    .dot-ok { background: var(--green); }
     .dot-err { background: var(--coral); }
     .actions { display: flex; gap: 8px; flex-wrap: wrap; }
     @media (max-width: 680px) { .sidebar { display: none; } .main { padding: 1rem; } }
@@ -230,8 +231,9 @@
       </div>
     </div>
 
-    <div style="margin-bottom:0.5rem;">
-      <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-3);margin-bottom:10px;">Receita por conta eBay</div>
+    <!-- Receita por conta — todas as 5 contas -->
+    <div style="margin-bottom:1.5rem;">
+      <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-3);margin-bottom:10px;">Receita por conta</div>
       <div class="accounts-grid">
         <div class="account-card" style="border-left-color:var(--c1);">
           <div class="account-header">
@@ -257,10 +259,26 @@
           <div class="account-value" id="acc-3-val"><span class="spinner"></span></div>
           <div class="account-sub" id="acc-3-sub">— encomendas</div>
         </div>
+        <div class="account-card" style="border-left-color:var(--c4);">
+          <div class="account-header">
+            <div class="account-dot" style="background:var(--c4);"></div>
+            <div class="account-name">Nilson Vinted</div>
+          </div>
+          <div class="account-value" id="acc-4-val"><span class="spinner"></span></div>
+          <div class="account-sub" id="acc-4-sub">— encomendas</div>
+        </div>
+        <div class="account-card" style="border-left-color:var(--c5);">
+          <div class="account-header">
+            <div class="account-dot" style="background:var(--c5);"></div>
+            <div class="account-name">4Bliss Vinted</div>
+          </div>
+          <div class="account-value" id="acc-5-val"><span class="spinner"></span></div>
+          <div class="account-sub" id="acc-5-sub">— encomendas</div>
+        </div>
       </div>
     </div>
 
-    <div class="grid-2" style="margin-top:1.5rem;">
+    <div class="grid-2">
       <div class="card">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:8px;">
           <div class="card-title" style="margin-bottom:0;">Receita por conta</div>
@@ -350,7 +368,6 @@
   let currentPeriod = 30, allOrders = [], currentFilter = 'all';
   let chartRev = null, chartDonut = null, chartWeek = null;
 
-  // Cores nítidas — uma por conta
   const CONTA_CORES = {
     'Nilson Ebay':   '#2563EB',
     '4Bliss Ebay':   '#059669',
@@ -358,9 +375,7 @@
     'Nilson Vinted': '#7C3AED',
     '4Bliss Vinted': '#DB2777',
   };
-
-  const CORES_ARRAY = ['#2563EB','#059669','#D97706','#7C3AED','#DB2777'];
-  const CONTAS_EBAY = ['Nilson Ebay','4Bliss Ebay','Jaque Ebay'];
+  const CORES_ARRAY  = ['#2563EB','#059669','#D97706','#7C3AED','#DB2777'];
   const TODAS_CONTAS = ['Nilson Ebay','4Bliss Ebay','Jaque Ebay','Nilson Vinted','4Bliss Vinted'];
 
   const STATUS_MAP = {
@@ -382,9 +397,9 @@
 
   async function carregarDados(dias) {
     currentPeriod = dias || 30;
-    ['m-rev','m-ord','m-avg','m-pend','m-del','acc-1-val','acc-2-val','acc-3-val'].forEach(id => {
+    ['m-rev','m-ord','m-avg','m-pend','m-del','acc-1-val','acc-2-val','acc-3-val','acc-4-val','acc-5-val'].forEach(id => {
       const el = document.getElementById(id);
-      if(el) el.innerHTML = '<span class="spinner"></span>';
+      if (el) el.innerHTML = '<span class="spinner"></span>';
     });
     let vendas = [];
     try {
@@ -432,7 +447,8 @@
       alertEl.classList.add('hidden');
     }
 
-    CONTAS_EBAY.forEach((conta, i) => {
+    // Cards de todas as 5 contas
+    TODAS_CONTAS.forEach((conta, i) => {
       const cv = vendas.filter(v => v.conta === conta);
       const ct = cv.reduce((s,v) => s + parseFloat(v.valor||0), 0);
       document.getElementById('acc-'+(i+1)+'-val').textContent = fmt(ct);
@@ -496,7 +512,6 @@
   }
 
   function renderOrders(vendas, filter) {
-    // ordenar da mais recente para mais antiga
     const sorted = [...vendas].sort((a,b) => new Date(b.data_venda) - new Date(a.data_venda));
     const filtered = filter === 'all'
       ? sorted.slice(0, 50)
@@ -509,14 +524,14 @@
     }
     tbody.innerHTML = filtered.map(v => {
       const [sc, sl] = STATUS_MAP[v.estado] || ['b-pending', v.estado || '—'];
-      const ref = '#' + (v.order_id || v.id || '').toString().replace('ebay_','').replace('vinted_','').slice(-6).toUpperCase();
+      const ref = '#' + (v.order_id||v.id||'').toString().replace('ebay_','').replace('vinted_','').slice(-6).toUpperCase();
       const dt  = new Date(v.data_venda).toLocaleDateString('pt-PT', { day:'numeric', month:'short', year:'2-digit' });
       const cor = CONTA_CORES[v.conta] || '#888';
       return '<tr>' +
         '<td style="color:var(--text-3);font-size:12px;">' + ref + '</td>' +
-        '<td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;">' + (v.produto || '—') + '</td>' +
+        '<td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;">' + (v.produto||'—') + '</td>' +
         '<td><span style="font-size:11px;padding:2px 8px;border-radius:4px;font-weight:600;background:'+cor+'22;color:'+cor+';">' + (v.conta||'—') + '</span></td>' +
-        '<td style="color:var(--text-2);">' + (v.comprador || '—') + '</td>' +
+        '<td style="color:var(--text-2);">' + (v.comprador||'—') + '</td>' +
         '<td style="font-weight:600;">' + fmt(v.valor) + '</td>' +
         '<td><span class="badge ' + sc + '">' + sl + '</span></td>' +
         '<td style="color:var(--text-3);">' + dt + '</td>' +
@@ -532,7 +547,6 @@
   }
 
   function renderRevChart(vendas) {
-    const cores = CORES_ARRAY;
     const ag = {};
     vendas.forEach(v => {
       const d = new Date(v.data_venda);
@@ -557,7 +571,7 @@
         datasets: TODAS_CONTAS.map((c, i) => ({
           label: c,
           data: labels.map(l => ag[l][c]||0),
-          backgroundColor: cores[i],
+          backgroundColor: CORES_ARRAY[i],
           borderRadius: 3,
           stack: 's'
         }))
@@ -596,7 +610,10 @@
       data: { labels: dias, datasets },
       options: {
         responsive: true, maintainAspectRatio: false,
-        plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => ' ' + c.dataset.label + ': ' + fmt(c.parsed.y) } } },
+        plugins: {
+          legend: { display: false },
+          tooltip: { callbacks: { label: c => ' ' + c.dataset.label + ': ' + fmt(c.parsed.y) } }
+        },
         scales: {
           x: { ticks: { color:'#888', font:{size:11} }, grid: { display:false } },
           y: { ticks: { color:'#888', font:{size:11}, callback: v => '£'+v }, grid: { color:'rgba(128,128,128,0.08)' } }
@@ -617,8 +634,8 @@
     }
     const maxQty = Math.max(...items.map(s => s.quantidade), 1);
     document.getElementById('stockList').innerHTML = items.map(s => {
-      const pct = Math.round((s.quantidade/maxQty)*100);
-      const cor = s.quantidade<=5?'#E24B4A':s.quantidade<=10?'#D97706':'#059669';
+      const pct  = Math.round((s.quantidade/maxQty)*100);
+      const cor  = s.quantidade<=5?'#E24B4A':s.quantidade<=10?'#D97706':'#059669';
       const warn = s.quantidade<=5?' stock-warn':'';
       return '<div class="stock-item"><div class="stock-name">'+s.produto+'</div><div class="stock-bar"><div class="stock-bar-fill" style="width:'+pct+'%;background:'+cor+';"></div></div><div class="stock-qty'+warn+'">'+s.quantidade+(s.quantidade<=5?' ⚠':'')+'</div></div>';
     }).join('');
