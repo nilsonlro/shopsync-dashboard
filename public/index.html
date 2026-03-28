@@ -18,6 +18,12 @@
       --coral: #D85A30; --coral-bg: #FAECE7; --coral-text: #993C1D;
       --red-bg: #FCEBEB; --red-text: #A32D2D;
       --radius-md: 8px; --radius-lg: 12px;
+      /* Cores nítidas por conta */
+      --c1: #2563EB; /* Nilson Ebay — azul vivo */
+      --c2: #059669; /* 4Bliss Ebay — verde vivo */
+      --c3: #D97706; /* Jaque Ebay — âmbar vivo */
+      --c4: #7C3AED; /* Nilson Vinted — roxo vivo */
+      --c5: #DB2777; /* 4Bliss Vinted — rosa vivo */
     }
     @media (prefers-color-scheme: dark) {
       :root {
@@ -71,10 +77,10 @@
     .delta-dn { color: var(--coral-text); }
     .accounts-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 1.5rem; }
     @media (max-width: 780px) { .accounts-grid { grid-template-columns: 1fr; } }
-    .account-card { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1rem 1.2rem; }
+    .account-card { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1rem 1.2rem; border-left: 3px solid transparent; }
     .account-header { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
-    .account-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--blue); flex-shrink: 0; }
-    .account-name { font-size: 12px; font-weight: 500; color: var(--text-2); text-transform: uppercase; letter-spacing: 0.05em; }
+    .account-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+    .account-name { font-size: 12px; font-weight: 600; color: var(--text-2); text-transform: uppercase; letter-spacing: 0.05em; }
     .account-value { font-size: 22px; font-weight: 600; letter-spacing: -0.02em; color: var(--text); }
     .account-sub { font-size: 12px; color: var(--text-3); margin-top: 4px; }
     .card { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1.2rem 1.4rem; }
@@ -84,12 +90,12 @@
     @media (max-width: 780px) { .grid-2, .grid-2b { grid-template-columns: 1fr; } }
     .platform-row { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 0.5px solid var(--border); }
     .platform-row:last-child { border-bottom: none; }
-    .pdot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
-    .pname { font-size: 13px; flex: 1; }
-    .bar-bg { flex: 2; height: 5px; background: var(--surface-2); border-radius: 3px; overflow: hidden; }
+    .pdot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+    .pname { font-size: 13px; flex: 1; font-weight: 500; }
+    .bar-bg { flex: 2; height: 6px; background: var(--surface-2); border-radius: 3px; overflow: hidden; }
     .bar-fill { height: 100%; border-radius: 3px; transition: width 0.6s cubic-bezier(0.4,0,0.2,1); }
-    .pval { font-size: 13px; font-weight: 500; min-width: 54px; text-align: right; }
-    .ppct { font-size: 11px; color: var(--text-3); min-width: 30px; text-align: right; }
+    .pval { font-size: 13px; font-weight: 600; min-width: 60px; text-align: right; }
+    .ppct { font-size: 11px; color: var(--text-3); min-width: 34px; text-align: right; }
     .orders-wrap { margin-bottom: 1.5rem; }
     .tabs { display: flex; border-bottom: 0.5px solid var(--border); margin-bottom: 1rem; flex-wrap: wrap; }
     .tab { font-size: 13px; padding: 8px 14px; color: var(--text-2); cursor: pointer; border: none; background: none; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: color 0.15s; }
@@ -106,8 +112,8 @@
     .b-sent       { background: var(--blue-bg);  color: var(--blue-text); }
     .b-delivered  { background: var(--green-bg); color: var(--green-text); }
     .b-cancelled  { background: var(--red-bg);   color: var(--red-text); }
-    .b-in_progress { background: var(--blue-bg); color: var(--blue-text); }
     .b-not_started { background: var(--amber-bg); color: var(--amber-text); }
+    .b-in_progress { background: var(--blue-bg);  color: var(--blue-text); }
     .b-fulfilled  { background: var(--green-bg); color: var(--green-text); }
     .stock-item { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 0.5px solid var(--border); }
     .stock-item:last-child { border-bottom: none; }
@@ -116,9 +122,9 @@
     .stock-bar-fill { height: 100%; border-radius: 2px; }
     .stock-qty { font-size: 13px; font-weight: 500; min-width: 40px; text-align: right; }
     .stock-warn { color: var(--coral-text); }
-    .chart-legend { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 10px; }
+    .chart-legend { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 10px; }
     .leg { display: flex; align-items: center; gap: 5px; font-size: 12px; color: var(--text-2); }
-    .leg-sq { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+    .leg-sq { width: 12px; height: 12px; border-radius: 3px; flex-shrink: 0; }
     .spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid var(--border-md); border-top-color: var(--green); border-radius: 50%; animation: spin 0.7s linear infinite; vertical-align: middle; margin-right: 6px; }
     .status-dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; margin-right: 5px; }
     .dot-ok  { background: var(--green); }
@@ -165,7 +171,7 @@
       <svg width="10" height="10" viewBox="0 0 10 10" fill="none" style="color:var(--text-3);flex-shrink:0;"><path d="M2 2h6v6M2 8l6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
     </a>
     <div class="sidebar-footer">
-      <div style="font-size:11px;color:var(--text-3);margin-bottom:8px;display:flex;align-items:center;gap:5px;">
+      <div style="font-size:11px;color:var(--text-3);display:flex;align-items:center;gap:5px;">
         <span class="status-dot dot-ok" id="dbStatusDot"></span>
         <span id="dbStatusText">A ligar...</span>
       </div>
@@ -225,28 +231,28 @@
     </div>
 
     <div style="margin-bottom:0.5rem;">
-      <div style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-3);margin-bottom:10px;">Receita por conta eBay</div>
+      <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-3);margin-bottom:10px;">Receita por conta eBay</div>
       <div class="accounts-grid">
-        <div class="account-card">
+        <div class="account-card" style="border-left-color:var(--c1);">
           <div class="account-header">
-            <div class="account-dot" style="background:#185FA5;"></div>
-            <div class="account-name">Nilson Ebay</div>
+            <div class="account-dot" style="background:var(--c1);"></div>
+            <div class="account-name">Nilson eBay</div>
           </div>
           <div class="account-value" id="acc-1-val"><span class="spinner"></span></div>
           <div class="account-sub" id="acc-1-sub">— encomendas</div>
         </div>
-        <div class="account-card">
+        <div class="account-card" style="border-left-color:var(--c2);">
           <div class="account-header">
-            <div class="account-dot" style="background:#1D9E75;"></div>
-            <div class="account-name">4Bliss Ebay</div>
+            <div class="account-dot" style="background:var(--c2);"></div>
+            <div class="account-name">4Bliss eBay</div>
           </div>
           <div class="account-value" id="acc-2-val"><span class="spinner"></span></div>
           <div class="account-sub" id="acc-2-sub">— encomendas</div>
         </div>
-        <div class="account-card">
+        <div class="account-card" style="border-left-color:var(--c3);">
           <div class="account-header">
-            <div class="account-dot" style="background:#BA7517;"></div>
-            <div class="account-name">Jaque Ebay</div>
+            <div class="account-dot" style="background:var(--c3);"></div>
+            <div class="account-name">Jaque eBay</div>
           </div>
           <div class="account-value" id="acc-3-val"><span class="spinner"></span></div>
           <div class="account-sub" id="acc-3-sub">— encomendas</div>
@@ -259,10 +265,11 @@
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:8px;">
           <div class="card-title" style="margin-bottom:0;">Receita por conta</div>
           <div class="chart-legend">
-            <div class="leg"><div class="leg-sq" style="background:#185FA5;"></div>Nilson eBay</div>
-            <div class="leg"><div class="leg-sq" style="background:#1D9E75;"></div>4Bliss eBay</div>
-            <div class="leg"><div class="leg-sq" style="background:#BA7517;"></div>Jaque eBay</div>
-            <div class="leg"><div class="leg-sq" style="background:#5DCAA5;"></div>Nilson Vinted</div>
+            <div class="leg"><div class="leg-sq" style="background:var(--c1);"></div>Nilson eBay</div>
+            <div class="leg"><div class="leg-sq" style="background:var(--c2);"></div>4Bliss eBay</div>
+            <div class="leg"><div class="leg-sq" style="background:var(--c3);"></div>Jaque eBay</div>
+            <div class="leg"><div class="leg-sq" style="background:var(--c4);"></div>Nilson Vinted</div>
+            <div class="leg"><div class="leg-sq" style="background:var(--c5);"></div>4Bliss Vinted</div>
           </div>
         </div>
         <div style="position:relative;width:100%;height:220px;"><canvas id="chartRevenue"></canvas></div>
@@ -288,6 +295,7 @@
         <button class="tab" onclick="filterTab('4Bliss Ebay',this)">4Bliss eBay</button>
         <button class="tab" onclick="filterTab('Jaque Ebay',this)">Jaque eBay</button>
         <button class="tab" onclick="filterTab('Nilson Vinted',this)">Nilson Vinted</button>
+        <button class="tab" onclick="filterTab('4Bliss Vinted',this)">4Bliss Vinted</button>
       </div>
       <div class="table-scroll">
         <table class="otable">
@@ -314,9 +322,10 @@
       <div class="card">
         <div class="card-title">Tendência semanal</div>
         <div class="chart-legend">
-          <div class="leg"><div class="leg-sq" style="background:#185FA5;"></div>Nilson eBay</div>
-          <div class="leg"><div class="leg-sq" style="background:#1D9E75;"></div>4Bliss eBay</div>
-          <div class="leg"><div class="leg-sq" style="background:#BA7517;"></div>Jaque eBay</div>
+          <div class="leg"><div class="leg-sq" style="background:var(--c1);"></div>Nilson eBay</div>
+          <div class="leg"><div class="leg-sq" style="background:var(--c2);"></div>4Bliss eBay</div>
+          <div class="leg"><div class="leg-sq" style="background:var(--c4);"></div>Nilson Vinted</div>
+          <div class="leg"><div class="leg-sq" style="background:var(--c5);"></div>4Bliss Vinted</div>
         </div>
         <div style="position:relative;width:100%;height:160px;"><canvas id="chartWeek"></canvas></div>
       </div>
@@ -341,13 +350,18 @@
   let currentPeriod = 30, allOrders = [], currentFilter = 'all';
   let chartRev = null, chartDonut = null, chartWeek = null;
 
+  // Cores nítidas — uma por conta
   const CONTA_CORES = {
-    'Nilson Ebay':   '#185FA5',
-    '4Bliss Ebay':   '#1D9E75',
-    'Jaque Ebay':    '#BA7517',
-    'Nilson Vinted': '#5DCAA5',
-    '4Bliss Vinted': '#0F6E56',
+    'Nilson Ebay':   '#2563EB',
+    '4Bliss Ebay':   '#059669',
+    'Jaque Ebay':    '#D97706',
+    'Nilson Vinted': '#7C3AED',
+    '4Bliss Vinted': '#DB2777',
   };
+
+  const CORES_ARRAY = ['#2563EB','#059669','#D97706','#7C3AED','#DB2777'];
+  const CONTAS_EBAY = ['Nilson Ebay','4Bliss Ebay','Jaque Ebay'];
+  const TODAS_CONTAS = ['Nilson Ebay','4Bliss Ebay','Jaque Ebay','Nilson Vinted','4Bliss Vinted'];
 
   const STATUS_MAP = {
     pending:     ['b-pending',    'Pendente'],
@@ -376,7 +390,9 @@
     try {
       const desde = new Date();
       desde.setDate(desde.getDate() - currentPeriod);
-      const { data, error } = await db.from('vendas').select('*').gte('data_venda', desde.toISOString()).order('data_venda', { ascending: false });
+      const { data, error } = await db.from('vendas').select('*')
+        .gte('data_venda', desde.toISOString())
+        .order('data_venda', { ascending: false });
       if (error) throw error;
       vendas = data || [];
       setDbStatus(true, vendas.length ? 'Supabase ligado' : 'Sem dados neste período');
@@ -416,8 +432,7 @@
       alertEl.classList.add('hidden');
     }
 
-    const contasEbay = ['Nilson Ebay','4Bliss Ebay','Jaque Ebay'];
-    contasEbay.forEach((conta, i) => {
+    CONTAS_EBAY.forEach((conta, i) => {
       const cv = vendas.filter(v => v.conta === conta);
       const ct = cv.reduce((s,v) => s + parseFloat(v.valor||0), 0);
       document.getElementById('acc-'+(i+1)+'-val').textContent = fmt(ct);
@@ -434,8 +449,7 @@
   }
 
   function renderPlatformBars(vendas, total) {
-    const contas = ['Nilson Ebay','4Bliss Ebay','Jaque Ebay','Nilson Vinted','4Bliss Vinted'];
-    const barras = contas.map(conta => ({
+    const barras = TODAS_CONTAS.map(conta => ({
       conta,
       val: vendas.filter(v => v.conta === conta).reduce((s,v) => s + parseFloat(v.valor||0), 0)
     })).filter(b => b.val > 0);
@@ -458,8 +472,7 @@
   }
 
   function renderDonut(vendas) {
-    const contas = ['Nilson Ebay','4Bliss Ebay','Jaque Ebay','Nilson Vinted','4Bliss Vinted'];
-    const dados = contas.map(c => ({
+    const dados = TODAS_CONTAS.map(c => ({
       label: c,
       val: vendas.filter(v => v.conta === c).reduce((s,v) => s + parseFloat(v.valor||0), 0),
       cor: CONTA_CORES[c]
@@ -470,22 +483,24 @@
       type: 'doughnut',
       data: {
         labels: dados.map(d => d.label),
-        datasets: [{ data: dados.map(d => d.val), backgroundColor: dados.map(d => d.cor), borderWidth: 0, hoverOffset: 4 }]
+        datasets: [{ data: dados.map(d => d.val), backgroundColor: dados.map(d => d.cor), borderWidth: 2, borderColor: 'transparent', hoverOffset: 6 }]
       },
       options: {
-        responsive: true, maintainAspectRatio: false, cutout: '68%',
+        responsive: true, maintainAspectRatio: false, cutout: '65%',
         plugins: {
           legend: { display: false },
-          tooltip: { callbacks: { label: c => c.label + ': ' + fmt(c.parsed) } }
+          tooltip: { callbacks: { label: c => ' ' + c.label + ': ' + fmt(c.parsed) } }
         }
       }
     });
   }
 
   function renderOrders(vendas, filter) {
+    // ordenar da mais recente para mais antiga
+    const sorted = [...vendas].sort((a,b) => new Date(b.data_venda) - new Date(a.data_venda));
     const filtered = filter === 'all'
-      ? vendas.slice(0, 50)
-      : vendas.filter(v => v.conta === filter).slice(0, 50);
+      ? sorted.slice(0, 50)
+      : sorted.filter(v => v.conta === filter).slice(0, 50);
 
     const tbody = document.getElementById('ordersTbody');
     if (!filtered.length) {
@@ -495,12 +510,12 @@
     tbody.innerHTML = filtered.map(v => {
       const [sc, sl] = STATUS_MAP[v.estado] || ['b-pending', v.estado || '—'];
       const ref = '#' + (v.order_id || v.id || '').toString().replace('ebay_','').replace('vinted_','').slice(-6).toUpperCase();
-      const dt = new Date(v.data_venda).toLocaleDateString('pt-PT', { day:'numeric', month:'short', year:'2-digit' });
+      const dt  = new Date(v.data_venda).toLocaleDateString('pt-PT', { day:'numeric', month:'short', year:'2-digit' });
       const cor = CONTA_CORES[v.conta] || '#888';
       return '<tr>' +
         '<td style="color:var(--text-3);font-size:12px;">' + ref + '</td>' +
         '<td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;">' + (v.produto || '—') + '</td>' +
-        '<td><span style="font-size:11px;padding:2px 8px;border-radius:4px;font-weight:500;background:'+cor+'22;color:'+cor+';">' + (v.conta || '—') + '</span></td>' +
+        '<td><span style="font-size:11px;padding:2px 8px;border-radius:4px;font-weight:600;background:'+cor+'22;color:'+cor+';">' + (v.conta||'—') + '</span></td>' +
         '<td style="color:var(--text-2);">' + (v.comprador || '—') + '</td>' +
         '<td style="font-weight:600;">' + fmt(v.valor) + '</td>' +
         '<td><span class="badge ' + sc + '">' + sl + '</span></td>' +
@@ -517,8 +532,7 @@
   }
 
   function renderRevChart(vendas) {
-    const contas = ['Nilson Ebay','4Bliss Ebay','Jaque Ebay'];
-    const cores  = ['#185FA5','#1D9E75','#BA7517'];
+    const cores = CORES_ARRAY;
     const ag = {};
     vendas.forEach(v => {
       const d = new Date(v.data_venda);
@@ -531,8 +545,8 @@
         label = d.toLocaleDateString('pt-PT', { month:'short', year:'2-digit' });
       }
       if (!ag[label]) ag[label] = {};
-      contas.forEach(c => { if (!ag[label][c]) ag[label][c] = 0; });
-      if (contas.includes(v.conta)) ag[label][v.conta] = (ag[label][v.conta]||0) + parseFloat(v.valor||0);
+      TODAS_CONTAS.forEach(c => { if (!ag[label][c]) ag[label][c] = 0; });
+      if (TODAS_CONTAS.includes(v.conta)) ag[label][v.conta] = (ag[label][v.conta]||0) + parseFloat(v.valor||0);
     });
     const labels = Object.keys(ag);
     if (chartRev) chartRev.destroy();
@@ -540,7 +554,7 @@
       type: 'bar',
       data: {
         labels,
-        datasets: contas.map((c,i) => ({
+        datasets: TODAS_CONTAS.map((c, i) => ({
           label: c,
           data: labels.map(l => ag[l][c]||0),
           backgroundColor: cores[i],
@@ -550,10 +564,13 @@
       },
       options: {
         responsive: true, maintainAspectRatio: false,
-        plugins: { legend: { display:false }, tooltip: { callbacks: { label: c => ' '+c.dataset.label+': '+fmt(c.parsed.y) } } },
+        plugins: {
+          legend: { display: false },
+          tooltip: { callbacks: { label: c => ' ' + c.dataset.label + ': ' + fmt(c.parsed.y) } }
+        },
         scales: {
-          x: { stacked:true, ticks:{ color:'#888', font:{size:11} }, grid:{ display:false } },
-          y: { stacked:true, ticks:{ color:'#888', font:{size:11}, callback: v=>'£'+v }, grid:{ color:'rgba(128,128,128,0.08)' } }
+          x: { stacked: true, ticks: { color:'#888', font:{size:11} }, grid: { display:false } },
+          y: { stacked: true, ticks: { color:'#888', font:{size:11}, callback: v => '£'+v }, grid: { color:'rgba(128,128,128,0.08)' } }
         }
       }
     });
@@ -561,33 +578,28 @@
 
   function renderWeekChart(vendas) {
     const dias = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
-    const n1 = new Array(7).fill(0);
-    const n2 = new Array(7).fill(0);
-    const n3 = new Array(7).fill(0);
+    const datasets = TODAS_CONTAS.map((conta, i) => ({
+      label: conta,
+      data: new Array(7).fill(0),
+      borderColor: CORES_ARRAY[i],
+      backgroundColor: CORES_ARRAY[i] + '18',
+      tension: 0.4, fill: true, pointRadius: 3
+    }));
     vendas.forEach(v => {
       const d = new Date(v.data_venda).getDay();
-      const val = parseFloat(v.valor||0);
-      if (v.conta === 'Nilson Ebay')  n1[d] += val;
-      if (v.conta === '4Bliss Ebay')  n2[d] += val;
-      if (v.conta === 'Jaque Ebay')   n3[d] += val;
+      const idx = TODAS_CONTAS.indexOf(v.conta);
+      if (idx >= 0) datasets[idx].data[d] += parseFloat(v.valor||0);
     });
     if (chartWeek) chartWeek.destroy();
     chartWeek = new Chart(document.getElementById('chartWeek'), {
       type: 'line',
-      data: {
-        labels: dias,
-        datasets: [
-          { label:'Nilson eBay',  data:n1, borderColor:'#185FA5', backgroundColor:'rgba(24,95,165,0.07)',  tension:0.4, fill:true, pointRadius:3 },
-          { label:'4Bliss eBay',  data:n2, borderColor:'#1D9E75', backgroundColor:'rgba(29,158,117,0.06)', tension:0.4, fill:true, pointRadius:3 },
-          { label:'Jaque eBay',   data:n3, borderColor:'#BA7517', backgroundColor:'rgba(186,117,23,0.06)', tension:0.4, fill:true, pointRadius:3 },
-        ]
-      },
+      data: { labels: dias, datasets },
       options: {
         responsive: true, maintainAspectRatio: false,
-        plugins: { legend:{ display:false }, tooltip:{ callbacks:{ label: c=>' '+c.dataset.label+': '+fmt(c.parsed.y) } } },
+        plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => ' ' + c.dataset.label + ': ' + fmt(c.parsed.y) } } },
         scales: {
-          x: { ticks:{ color:'#888', font:{size:11} }, grid:{ display:false } },
-          y: { ticks:{ color:'#888', font:{size:11}, callback: v=>'£'+v }, grid:{ color:'rgba(128,128,128,0.08)' } }
+          x: { ticks: { color:'#888', font:{size:11} }, grid: { display:false } },
+          y: { ticks: { color:'#888', font:{size:11}, callback: v => '£'+v }, grid: { color:'rgba(128,128,128,0.08)' } }
         }
       }
     });
@@ -606,7 +618,7 @@
     const maxQty = Math.max(...items.map(s => s.quantidade), 1);
     document.getElementById('stockList').innerHTML = items.map(s => {
       const pct = Math.round((s.quantidade/maxQty)*100);
-      const cor = s.quantidade<=5?'#E24B4A':s.quantidade<=10?'#BA7517':'#1D9E75';
+      const cor = s.quantidade<=5?'#E24B4A':s.quantidade<=10?'#D97706':'#059669';
       const warn = s.quantidade<=5?' stock-warn':'';
       return '<div class="stock-item"><div class="stock-name">'+s.produto+'</div><div class="stock-bar"><div class="stock-bar-fill" style="width:'+pct+'%;background:'+cor+';"></div></div><div class="stock-qty'+warn+'">'+s.quantidade+(s.quantidade<=5?' ⚠':'')+'</div></div>';
     }).join('');
