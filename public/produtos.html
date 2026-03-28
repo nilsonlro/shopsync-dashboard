@@ -22,10 +22,6 @@
     .nav-divider { height:0.5px; background:var(--border); margin:10px 8px; }
     .nav-svg { width:16px; height:16px; stroke:currentColor; fill:none; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; flex-shrink:0; }
     .sidebar-footer { margin-top:auto; padding:12px 8px 0; border-top:0.5px solid var(--border); }
-    .user-row { display:flex; align-items:center; gap:9px; }
-    .avatar { width:30px; height:30px; border-radius:50%; background:var(--green-bg); color:var(--green-text); font-size:12px; font-weight:500; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
-    .user-name { font-size:13px; font-weight:500; }
-    .user-plan { font-size:11px; color:var(--text-3); }
     .main { flex:1; min-width:0; padding:2rem; overflow-x:hidden; }
     .topbar { display:flex; align-items:center; justify-content:space-between; margin-bottom:1.5rem; flex-wrap:wrap; gap:12px; }
     .topbar-left h1 { font-size:20px; font-weight:600; letter-spacing:-0.02em; }
@@ -42,7 +38,7 @@
     .metric-value { font-size:24px; font-weight:600; letter-spacing:-0.02em; color:var(--text); line-height:1; }
     .metric-delta { font-size:12px; margin-top:6px; }
     .delta-up { color:var(--green-text); }
-    .search-bar { display:flex; gap:8px; margin-bottom:1.2rem; flex-wrap:wrap; }
+    .filters-bar { display:flex; gap:8px; margin-bottom:1.2rem; flex-wrap:wrap; }
     .search-input { flex:1; min-width:200px; padding:8px 12px; border-radius:var(--radius-md); border:0.5px solid var(--border-md); background:var(--surface); color:var(--text); font-size:13px; }
     .search-input:focus { outline:none; border-color:var(--green); }
     .products-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(260px,1fr)); gap:12px; margin-bottom:1.5rem; }
@@ -61,15 +57,14 @@
     .pi { font-size:10px; padding:2px 6px; border-radius:4px; font-weight:500; }
     .pi-ebay   { background:var(--blue-bg);  color:var(--blue-text); }
     .pi-vinted { background:var(--green-bg); color:var(--green-text); }
-    .pi-etsy   { background:var(--coral-bg); color:var(--coral-text); }
-    .pi-amazon { background:var(--amber-bg); color:var(--amber-text); }
+    .info-box { background:var(--blue-bg); border:0.5px solid rgba(24,95,165,0.3); border-radius:var(--radius-md); padding:12px 16px; font-size:13px; color:var(--blue-text); display:flex; gap:10px; margin-bottom:1.5rem; }
     .spinner { display:inline-block; width:14px; height:14px; border:2px solid var(--border-md); border-top-color:var(--green); border-radius:50%; animation:spin 0.7s linear infinite; vertical-align:middle; margin-right:6px; }
     @keyframes spin { to{transform:rotate(360deg)} }
     .status-dot { width:7px; height:7px; border-radius:50%; display:inline-block; margin-right:5px; }
-    .dot-ok { background:var(--green); } .dot-err { background:var(--coral); }
+    .dot-ok { background:var(--green); }
+    .dot-err { background:var(--coral); }
     .empty-state { text-align:center; padding:3rem 1rem; color:var(--text-3); grid-column:1/-1; }
     .empty-state p { font-size:13px; margin-top:8px; }
-    .info-box { background:var(--blue-bg); border:0.5px solid var(--blue-text); border-radius:var(--radius-md); padding:12px 16px; font-size:13px; color:var(--blue-text); display:flex; gap:10px; margin-bottom:1.5rem; }
     @media (max-width:680px) { .sidebar{display:none;} .main{padding:1rem;} }
   </style>
 </head>
@@ -82,16 +77,18 @@
     </div>
     <div class="nav-section">Gestão</div>
     <a class="nav-item" href="index.html"><svg class="nav-svg" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Dashboard</a>
-    <a class="nav-item" href="encomendas.html"><svg class="nav-svg" viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 12h6M9 16h4"/></svg>Encomendas <span class="nav-badge" id="pendingBadge">—</span></a>
-    <a class="nav-item" href="stock.html"><svg class="nav-svg" viewBox="0 0 24 24"><path d="M20 7H4a1 1 0 00-1 1v10a1 1 0 001 1h16a1 1 0 001-1V8a1 1 0 00-1-1z"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg>Stock</a>
+    <a class="nav-item" href="encomendas.html"><svg class="nav-svg" viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 12h6M9 16h4"/></svg>Encomendas<span class="nav-badge" id="pendingBadge">0</span></a>
+    <a class="nav-item" href="stock.html"><svg class="nav-svg" viewBox="0 0 24 24"><path d="M20 7H4a1 1 0 00-1 1v10a1 1 0 001 1h16a1 1 0 001-1V8a1 1 0 00-1-1z"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg>Stock</a>
     <a class="nav-item active" href="produtos.html"><svg class="nav-svg" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>Produtos</a>
     <div class="nav-divider"></div>
     <div class="nav-section">Plataformas</div>
-    <a class="nav-item" href="https://www.ebay.co.uk/sh/ovw" target="_blank"><svg class="nav-svg" viewBox="0 0 24 24" style="color:var(--blue);"><circle cx="12" cy="12" r="10"/><path d="M8 12h8M12 8v8"/></svg><span style="flex:1;">eBay</span><svg width="10" height="10" viewBox="0 0 10 10" fill="none" style="color:var(--text-3);flex-shrink:0;"><path d="M2 2h6v6M2 8l6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
-    <a class="nav-item" href="https://www.vinted.co.uk/member/inbox" target="_blank"><svg class="nav-svg" viewBox="0 0 24 24" style="color:var(--green);"><circle cx="12" cy="12" r="10"/><path d="M8 12h8M12 8v8"/></svg><span style="flex:1;">Vinted</span><svg width="10" height="10" viewBox="0 0 10 10" fill="none" style="color:var(--text-3);flex-shrink:0;"><path d="M2 2h6v6M2 8l6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+    <a class="nav-item" href="https://www.ebay.co.uk/sh/ovw" target="_blank"><svg class="nav-svg" viewBox="0 0 24 24" style="color:var(--blue);"><circle cx="12" cy="12" r="10"/><path d="M8 12h8M12 8v8"/></svg><span style="flex:1;">eBay</span><svg width="10" height="10" viewBox="0 0 10 10" fill="none" style="color:var(--text-3);"><path d="M2 2h6v6M2 8l6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+    <a class="nav-item" href="https://www.vinted.co.uk/member/inbox" target="_blank"><svg class="nav-svg" viewBox="0 0 24 24" style="color:var(--green);"><circle cx="12" cy="12" r="10"/><path d="M8 12h8M12 8v8"/></svg><span style="flex:1;">Vinted</span><svg width="10" height="10" viewBox="0 0 10 10" fill="none" style="color:var(--text-3);"><path d="M2 2h6v6M2 8l6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
     <div class="sidebar-footer">
-      <div style="font-size:11px;color:var(--text-3);margin-bottom:8px;display:flex;align-items:center;gap:5px;"><span class="status-dot dot-ok" id="dbStatusDot"></span><span id="dbStatusText">A ligar...</span></div>
-      <div class="user-row"><div class="avatar">JS</div><div><div class="user-name">João Silva</div><div class="user-plan">Plano Gratuito</div></div></div>
+      <div style="font-size:11px;color:var(--text-3);display:flex;align-items:center;gap:5px;">
+        <span class="status-dot dot-ok" id="dbStatusDot"></span>
+        <span id="dbStatusText">A ligar...</span>
+      </div>
     </div>
   </aside>
 
@@ -109,30 +106,31 @@
 
     <div class="info-box">
       <span>ℹ️</span>
-      <span>Os produtos são gerados automaticamente a partir das suas <strong>vendas</strong> e <strong>stock</strong> na Supabase. Para adicionar um produto, adicione-o primeiro ao stock.</span>
+      <span>Os produtos são gerados automaticamente a partir das suas <strong>vendas</strong> sincronizadas do eBay e Vinted.</span>
     </div>
 
     <div class="metrics-row">
       <div class="metric"><div class="metric-label">Produtos únicos</div><div class="metric-value" id="m-unicos"><span class="spinner"></span></div><div class="metric-delta delta-up">vendidos</div></div>
-      <div class="metric"><div class="metric-label">Mais vendido</div><div class="metric-value" id="m-top" style="font-size:16px;"><span class="spinner"></span></div><div class="metric-delta delta-up" id="m-top-plat">&nbsp;</div></div>
+      <div class="metric"><div class="metric-label">Mais vendido</div><div class="metric-value" id="m-top" style="font-size:16px;"><span class="spinner"></span></div><div class="metric-delta delta-up" id="m-top-sub">&nbsp;</div></div>
       <div class="metric"><div class="metric-label">Preço médio</div><div class="metric-value" id="m-preco"><span class="spinner"></span></div><div class="metric-delta delta-up">por venda</div></div>
-      <div class="metric"><div class="metric-label">Plataforma top</div><div class="metric-value" id="m-plat" style="font-size:18px;"><span class="spinner"></span></div><div class="metric-delta delta-up">por receita</div></div>
+      <div class="metric"><div class="metric-label">Conta top</div><div class="metric-value" id="m-conta" style="font-size:16px;"><span class="spinner"></span></div><div class="metric-delta delta-up">por receita</div></div>
     </div>
 
-    <div class="search-bar">
+    <div class="filters-bar">
       <input class="search-input" type="text" id="searchInput" placeholder="Pesquisar produto..." oninput="filtrar()"/>
-      <select class="ctrl" id="platFilter" onchange="filtrar()">
-        <option value="">Todas as plataformas</option>
-        <option value="eBay">eBay</option>
-        <option value="Vinted">Vinted</option>
-        <option value="Etsy">Etsy</option>
-        <option value="Amazon">Amazon</option>
+      <select class="ctrl" id="contaFilter" onchange="filtrar()">
+        <option value="">Todas as contas</option>
+        <option value="Nilson Ebay">Nilson eBay</option>
+        <option value="4Bliss Ebay">4Bliss eBay</option>
+        <option value="Jaque Ebay">Jaque eBay</option>
+        <option value="Nilson Vinted">Nilson Vinted</option>
+        <option value="4Bliss Vinted">4Bliss Vinted</option>
       </select>
       <select class="ctrl" id="sortFilter" onchange="filtrar()">
         <option value="receita">Ordenar: Receita</option>
         <option value="vendas">Ordenar: Vendas</option>
         <option value="preco">Ordenar: Preço</option>
-        <option value="nome">Ordenar: Nome</option>
+        <option value="nome">Ordenar: Nome A-Z</option>
       </select>
     </div>
 
@@ -147,7 +145,14 @@
   const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5kZnRvdWd2aHlzbWN1bm9pb216Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM0OTg4NDUsImV4cCI6MjA4OTA3NDg0NX0.QOzFHPrwlhYIJYDAd8gKgR9q2tsYFDbUvL8KMq7hUzA";
   const db = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-  const PLATFORM_CLASS = { eBay:'pi-ebay', Vinted:'pi-vinted', Etsy:'pi-etsy', Amazon:'pi-amazon' };
+  const CONTA_CORES = {
+    'Nilson Ebay':   '#185FA5',
+    '4Bliss Ebay':   '#1D9E75',
+    'Jaque Ebay':    '#BA7517',
+    'Nilson Vinted': '#5DCAA5',
+    '4Bliss Vinted': '#0F6E56',
+  };
+
   let allProducts = [];
 
   async function carregarProdutos() {
@@ -157,28 +162,30 @@
       allProducts = agruparPorProduto(data || []);
       setDbStatus(true, 'Supabase ligado');
     } catch(e) {
-      allProducts = agruparPorProduto(DEMO_VENDAS);
-      setDbStatus(false, 'Usando dados demo');
+      allProducts = [];
+      setDbStatus(false, 'Erro na ligação');
     }
 
     if (allProducts.length) {
       const top = allProducts[0];
       const totalPreco = allProducts.reduce((s,p) => s + p.precoMedio, 0);
-      const platReceita = {};
-      allProducts.forEach(p => p.plataformas.forEach(pl => { platReceita[pl] = (platReceita[pl]||0) + p.receita; }));
-      const topPlat = Object.entries(platReceita).sort((a,b) => b[1]-a[1])[0];
+      const contaReceita = {};
+      allProducts.forEach(p => {
+        p.contas.forEach(c => { contaReceita[c] = (contaReceita[c]||0) + p.receita; });
+      });
+      const topConta = Object.entries(contaReceita).sort((a,b) => b[1]-a[1])[0];
 
       document.getElementById('m-unicos').textContent  = allProducts.length;
       document.getElementById('m-top').textContent     = top.nome.length > 18 ? top.nome.slice(0,16)+'…' : top.nome;
-      document.getElementById('m-top-plat').textContent= top.plataformas.join(', ');
+      document.getElementById('m-top-sub').textContent = top.contas.join(', ');
       document.getElementById('m-preco').textContent   = '£' + (totalPreco / allProducts.length).toFixed(2);
-      document.getElementById('m-plat').textContent    = topPlat ? topPlat[0] : '—';
+      document.getElementById('m-conta').textContent   = topConta ? topConta[0].replace(' Ebay',' eBay').replace(' Vinted',' V.') : '—';
     }
 
     document.getElementById('subtitleText').textContent = allProducts.length + ' produto' + (allProducts.length!==1?'s':'') + ' únicos';
 
     try {
-      const { data } = await db.from('vendas').select('id').eq('estado','pending');
+      const { data } = await db.from('vendas').select('id').in('estado', ['pending','NOT_STARTED','not_started']);
       document.getElementById('pendingBadge').textContent = (data||[]).length;
     } catch(e) {}
 
@@ -189,26 +196,29 @@
     const mapa = {};
     vendas.forEach(v => {
       const nome = v.produto || '—';
-      if (!mapa[nome]) mapa[nome] = { nome, vendas:0, receita:0, plataformas:[], precoMedio:0, precos:[] };
+      if (!mapa[nome]) mapa[nome] = { nome, vendas:0, receita:0, contas:[], plataformas:[], precos:[] };
       mapa[nome].vendas++;
       mapa[nome].receita += parseFloat(v.valor||0);
       mapa[nome].precos.push(parseFloat(v.valor||0));
-      if (!mapa[nome].plataformas.includes(v.plataforma)) mapa[nome].plataformas.push(v.plataforma);
+      if (v.conta && !mapa[nome].contas.includes(v.conta)) mapa[nome].contas.push(v.conta);
+      if (v.plataforma && !mapa[nome].plataformas.includes(v.plataforma)) mapa[nome].plataformas.push(v.plataforma);
     });
-    Object.values(mapa).forEach(p => { p.precoMedio = p.precos.reduce((s,x)=>s+x,0) / p.precos.length; });
+    Object.values(mapa).forEach(p => {
+      p.precoMedio = p.precos.reduce((s,x) => s+x, 0) / p.precos.length;
+    });
     return Object.values(mapa).sort((a,b) => b.receita - a.receita);
   }
 
   function filtrar() {
-    const q    = document.getElementById('searchInput').value.toLowerCase();
-    const plat = document.getElementById('platFilter').value;
-    const sort = document.getElementById('sortFilter').value;
-    let filtered = allProducts;
-    if (q)    filtered = filtered.filter(p => p.nome.toLowerCase().includes(q));
-    if (plat) filtered = filtered.filter(p => p.plataformas.includes(plat));
-    if (sort === 'vendas') filtered = [...filtered].sort((a,b) => b.vendas - a.vendas);
-    else if (sort === 'preco') filtered = [...filtered].sort((a,b) => b.precoMedio - a.precoMedio);
-    else if (sort === 'nome')  filtered = [...filtered].sort((a,b) => a.nome.localeCompare(b.nome));
+    const q     = document.getElementById('searchInput').value.toLowerCase();
+    const conta = document.getElementById('contaFilter').value;
+    const sort  = document.getElementById('sortFilter').value;
+    let filtered = [...allProducts];
+    if (q)     filtered = filtered.filter(p => p.nome.toLowerCase().includes(q));
+    if (conta) filtered = filtered.filter(p => p.contas.includes(conta));
+    if (sort === 'vendas') filtered.sort((a,b) => b.vendas - a.vendas);
+    else if (sort === 'preco') filtered.sort((a,b) => b.precoMedio - a.precoMedio);
+    else if (sort === 'nome')  filtered.sort((a,b) => a.nome.localeCompare(b.nome));
     renderGrid(filtered);
   }
 
@@ -219,13 +229,16 @@
       return;
     }
     grid.innerHTML = products.map(p => {
-      const plats = p.plataformas.map(pl => '<span class="pi '+(PLATFORM_CLASS[pl]||'')+'">'+pl+'</span>').join('');
+      const tags = p.contas.map(c => {
+        const cor = CONTA_CORES[c] || '#888';
+        return '<span style="font-size:10px;padding:2px 6px;border-radius:4px;font-weight:500;background:'+cor+'22;color:'+cor+';">'+c+'</span>';
+      }).join('');
       return '<div class="product-card">' +
         '<div class="product-header">' +
           '<div><div class="product-name">'+p.nome+'</div><div class="product-category">'+p.plataformas.join(' · ')+'</div></div>' +
           '<div class="product-price">£'+p.precoMedio.toFixed(0)+'<span>/und.</span></div>' +
         '</div>' +
-        '<div class="product-platforms">'+plats+'</div>' +
+        '<div class="product-platforms">'+tags+'</div>' +
         '<div class="product-stats">' +
           '<div class="stat"><div class="stat-label">Vendas</div><div class="stat-value">'+p.vendas+'×</div></div>' +
           '<div class="stat"><div class="stat-label">Receita</div><div class="stat-value">£'+p.receita.toFixed(0)+'</div></div>' +
@@ -234,16 +247,6 @@
         '</div>';
     }).join('');
   }
-
-  const DEMO_VENDAS = [
-    {produto:'Câmara Leica M3', valor:340, plataforma:'eBay'},
-    {produto:'Casaco Zara M',   valor:78,  plataforma:'Vinted'},
-    {produto:'Brincos prata',   valor:65,  plataforma:'Etsy'},
-    {produto:'Livros lote 5',   valor:54,  plataforma:'Amazon'},
-    {produto:'Relógio Seiko',   valor:210, plataforma:'eBay'},
-    {produto:'Câmara Leica M3', valor:320, plataforma:'eBay'},
-    {produto:'Casaco Zara M',   valor:80,  plataforma:'Vinted'},
-  ];
 
   function setDbStatus(ok, msg) {
     document.getElementById('dbStatusDot').className = 'status-dot ' + (ok ? 'dot-ok' : 'dot-err');
