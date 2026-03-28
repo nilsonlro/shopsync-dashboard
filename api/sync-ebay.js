@@ -5,9 +5,9 @@ const APP_ID = process.env.EBAY_APP_ID;
 const CERT_ID = process.env.EBAY_CERT_ID;
 
 const CONTAS = [
-  { nome: "eBay Nilson 1", refresh: process.env.EBAY_REFRESH_1 },
-  { nome: "eBay Nilson 2", refresh: process.env.EBAY_REFRESH_2 },
-  { nome: "eBay Nilson 3", refresh: process.env.EBAY_REFRESH_3 },
+  { nome: "Nilson Ebay", refresh: process.env.EBAY_REFRESH_1 },
+  { nome: "4Bliss Ebay", refresh: process.env.EBAY_REFRESH_2 },
+  { nome: "Jaque Ebay", refresh: process.env.EBAY_REFRESH_3 },
 ];
 
 async function obterAccessToken(refreshToken) {
