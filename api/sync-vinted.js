@@ -3,7 +3,7 @@ const SUPABASE_URL = process.env.SUPABASE_URL;
 const SUPABASE_KEY = process.env.SUPABASE_ANON_KEY;
 
 const CONTAS = [
-  { nome: "Vinted Nilson", token: process.env.VINTED_TOKEN_NILSON },
+  { nome: "Nilson Vinted", token: process.env.VINTED_TOKEN_NILSON },
 ];
 
 async function buscarVendasVinted(conta) {
