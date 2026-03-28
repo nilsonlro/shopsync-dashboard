@@ -4,6 +4,7 @@ const SUPABASE_KEY = process.env.SUPABASE_ANON_KEY;
 
 const CONTAS = [
   { nome: "Nilson Vinted", token: process.env.VINTED_TOKEN_NILSON },
+  { nome: "4Bliss Vinted", token: process.env.VINTED_TOKEN_JAQUELINE },
 ];
 
 async function buscarVendasVinted(conta) {
