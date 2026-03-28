@@ -59,7 +59,7 @@ async function guardarNoSupabase(vendas, nomeConta) {
     const registo = {
       plataforma: "eBay",
       conta: nomeConta,
-      order_id: `ebay_${v.orderId}`,
+      order_id: `ebay_${nomeConta.replace(/ /g,'_')}_${v.orderId}`,
       produto: v.lineItems?.[0]?.title || "Produto eBay",
       valor: parseFloat(v.pricingSummary?.total?.value || 0),
       moeda: v.pricingSummary?.total?.currency || "GBP",
