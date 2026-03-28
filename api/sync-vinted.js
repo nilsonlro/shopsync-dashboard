@@ -7,22 +7,22 @@ const CONTAS = [
 ];
 
 async function buscarVendasVinted(conta) {
-  const url = "https://www.vinted.co.uk/my_orders?type=sold&status=all&per_page=50&page=1";
+  const url = "https://www.vinted.co.uk/api/v2/my_orders?type=sold&status=all&per_page=50&page=1";
 
   const resposta = await fetch(url, {
     headers: {
-      "Cookie": `access_token_web=${conta.token}`,
+      "Authorization": `Bearer ${conta.token}`,
       "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120.0.0.0 Safari/537.36",
-      "Accept": "application/json, text/plain, */*",
-      "Accept-Language": "en-uk-fr",
+      "Accept": "application/json",
+      "Accept-Language": "en-GB",
       "Referer": "https://www.vinted.co.uk/my_orders",
-      "X-Requested-With": "XMLHttpRequest",
+      "Origin": "https://www.vinted.co.uk",
     },
   });
 
   if (!resposta.ok) {
     const texto = await resposta.text();
-    throw new Error(`Erro ${resposta.status}: ${texto.slice(0, 200)}`);
+    throw new Error(`Erro ${resposta.status}: ${texto.slice(0, 300)}`);
   }
 
   const dados = await resposta.json();
