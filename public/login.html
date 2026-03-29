@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ShopSync — Acesso</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #f5f5f3; --surface: #ffffff; --border: rgba(0,0,0,0.08);
+      --border-md: rgba(0,0,0,0.14); --text: #1a1a18; --text-2: #6b6b68;
+      --text-3: #9a9a97; --green: #1D9E75; --green-dark: #0F6E56;
+      --green-bg: #E1F5EE; --green-text: #0F6E56;
+      --red-bg: #FCEBEB; --red-text: #A32D2D;
+      --radius-md: 8px; --radius-lg: 12px;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #1a1a18; --surface: #242422; --border: rgba(255,255,255,0.08);
+        --border-md: rgba(255,255,255,0.14); --text: #f0efea;
+        --text-2: #9a9a97; --text-3: #6b6b68;
+        --green-bg: #0a2e22; --green-text: #5DCAA5;
+        --red-bg: #2a0a0a; --red-text: #F09595;
+      }
+    }
+    html, body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; font-size: 14px; min-height: 100vh; display: flex; align-items: center; justify-content: center; }
+    .box { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 2.5rem 2rem; width: 100%; max-width: 360px; }
+    .logo { display: flex; align-items: center; gap: 8px; font-size: 20px; font-weight: 600; margin-bottom: 2rem; justify-content: center; }
+    .logo span { color: var(--green); }
+    .label { font-size: 12px; font-weight: 500; color: var(--text-2); margin-bottom: 6px; display: block; }
+    .input { width: 100%; padding: 10px 12px; border-radius: var(--radius-md); border: 0.5px solid var(--border-md); background: var(--bg); color: var(--text); font-size: 14px; outline: none; transition: border-color 0.15s; }
+    .input:focus { border-color: var(--green); }
+    .btn { width: 100%; padding: 11px; background: var(--green); color: #fff; border: none; border-radius: var(--radius-md); font-size: 14px; font-weight: 500; cursor: pointer; margin-top: 1.2rem; transition: background 0.15s; }
+    .btn:hover { background: var(--green-dark); }
+    .erro { background: var(--red-bg); color: var(--red-text); border-radius: var(--radius-md); padding: 10px 14px; font-size: 13px; margin-top: 1rem; display: none; }
+    .subtitulo { font-size: 13px; color: var(--text-3); text-align: center; margin-bottom: 1.5rem; }
+  </style>
+</head>
+<body>
+<div class="box">
+  <div class="logo">
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="2" y="2" width="8" height="8" rx="2" fill="#1D9E75"/><rect x="12" y="2" width="8" height="8" rx="2" fill="#1D9E75" opacity=".5"/><rect x="2" y="12" width="8" height="8" rx="2" fill="#1D9E75" opacity=".5"/><rect x="12" y="12" width="8" height="8" rx="2" fill="#1D9E75"/></svg>
+    Shop<span>Sync</span>
+  </div>
+  <p class="subtitulo">Introduza a senha para aceder ao dashboard</p>
+  <label class="label">Senha</label>
+  <input class="input" type="password" id="senha" placeholder="••••••••" onkeydown="if(event.key==='Enter') entrar()"/>
+  <button class="btn" onclick="entrar()">Entrar</button>
+  <div class="erro" id="erro">Senha incorrecta. Tente novamente.</div>
+</div>
+
+<script>
+  // Verificar se já está autenticado
+  if (sessionStorage.getItem('ss_auth') === 'ok') {
+    window.location.href = 'index.html';
+  }
+
+  function entrar() {
+    const senha = document.getElementById('senha').value;
+    if (senha === 'Bley@324958') {
+      sessionStorage.setItem('ss_auth', 'ok');
+      window.location.href = 'index.html';
+    } else {
+      document.getElementById('erro').style.display = 'block';
+      document.getElementById('senha').value = '';
+      document.getElementById('senha').focus();
+    }
+  }
+</script>
+</body>
+</html>
